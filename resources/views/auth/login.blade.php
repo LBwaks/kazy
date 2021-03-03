@@ -57,7 +57,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-5">
-                    <button type="submit" class="btn btn-primary  btn-block ml-0">
+                    <button type="submit" class="btn btn-primary  ml-0">
                         {{ __('Login') }}
                     </button>
 

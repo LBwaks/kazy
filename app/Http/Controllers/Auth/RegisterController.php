@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
-use File;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
+
 class RegisterController extends Controller
 {
     /*
@@ -51,6 +50,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'user_type'=>['required'],
             'id_no' => ['required', 'string', 'min:6','max:10'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -61,7 +61,7 @@ class RegisterController extends Controller
             'location' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'profile_image'=>['sometimes','mimes:jpeg,png,jpg|max:2048|nullable']
-            // 'profile_image'=>['string']
+
 
 
         ]);
@@ -73,6 +73,14 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
+    // protected function create(array $data)
+    // {
+    //     return User::create([
+    //         'name' => $data['name'],
+    //         'email' => $data['email'],
+    //         'password' => Hash::make($data['password']),
+    //     ]);
+    // }
     protected function create(array $data)
     {
         if(request()->hasFile('profile_image')){
@@ -80,7 +88,7 @@ class RegisterController extends Controller
             $name=uniqid().".".$file->getClientOriginalExtension();
             $file->move('images/profile/',$name);
             return User::create([
-
+                'user_type'=>$data['user_type'],
                 'id_no'=>$data['id_no'],
                 'name' => $data['name'],
                 'email' => $data['email'],
@@ -89,12 +97,12 @@ class RegisterController extends Controller
                 'dob'=>$data['dob'],
                 'location'=>$data['location'],
                 'address'=>$data['address'],
-                'profile_image'=>'/images/profile/'.$name,
+                'profile_image'=>$name,
                 'password' => Hash::make($data['password']),
             ]);
         }
         return User::create([
-
+            'user_type'=>$data['user_type'],
             'id_no'=>$data['id_no'],
             'name' => $data['name'],
             'email' => $data['email'],

@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Job;
 use App\Category;
 use App\Jobimage;
+use App\Jobvideo;
 use App\Application;
 use Auth;
+use DataTables;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Cviebrock\EloquentSluggable\Services\SlugService;
@@ -24,9 +26,12 @@ class JobController extends Controller
      */
     public function index()
     {
+          $popular=Application::where('job_id','>',5)->count();
+        // $popular=Job::with('application')->count()->get();
+        $tags=Category::get();
         $jobs=Job::with('user')->latest()->paginate(4);
-        $job_image=Jobimage::with('images');
-        return view('job.index',compact('jobs','job_image'));
+        // $job_image=Jobimage::with('images');
+        return view('job.index',compact('jobs','tags','popular'));
     }
 
     /**
@@ -49,12 +54,14 @@ class JobController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'title'=>'required|max:255|min:25',
+            'title'=>'required|max:255|min:10',
             'description'=>'required|min:100',
+            'work'=>'required|min:50',
             'location'=>'required',
             'address'=>'required',
             'due'=>'required',
             'photo.*'=>'sometimes','mimes:jpeg,png,jpg|max:2048|nullable',
+            'video.*'=>'sometimes','mimetypes:video/avi,video/mpeg,video/quicktime|max:12048|nullable',
                ]);
                $job=new Job();
                $user=Auth::user();
@@ -64,6 +71,7 @@ class JobController extends Controller
                $job->slug=str::slug($request->title);
             //    $job->slug=SlugService::createSlug(Job::class,'slug',$request->title);
                $job->description=$request->description;
+               $job->work_to_do=$request->work;
                $job->location=$request->location;
                $job->address=$request->address;
                $job->due=$request->due;
@@ -73,19 +81,24 @@ class JobController extends Controller
                 foreach($files as $file){
                     $name=uniqid($user->id."_").".".$file->getClientOriginalExtension();
                        $file->move('images/job_image/',$name);
-                    //    $photos[]=$name;
-//   $job->images()->create(['images'->$name]);
-$job_image= new Jobimage();
-$job_image->job_id=$job->id;
-$job_image->images=$name;
-$job_image->save();
+                $job_image= new Jobimage();
+                $job_image->job_id=$job->id;
+                $job_image->images=$name;
+                $job_image->save();
                 }
-
-                // $job->images()->images=$request->$name;
-                // $job->images()->create(['images'->$name]);
-                // $job->job_image=json_encode($photos);
             }
-// $job->images()->create(['images'-> $name]);
+            if($request->hasFile('video')){
+                $files=$request->file('video');
+                foreach($files as $file){
+                    $name=uniqid($user->id."_").".".$file->getClientOriginalExtension();
+                       $file->move('video/job_video/',$name);
+                $job_video= new Jobvideo();
+                $job_video->job_id=$job->id;
+                $job_video->videos=$name;
+                $job_video->save();
+                }
+            }
+
                if($job->save()){
 
                if($request->category_id){
@@ -108,8 +121,10 @@ $job_image->save();
      */
     public function show(Job $job)
     {
+$sameTitle=Job::orderBy('id',"DESC")->take(4)->get();
 
-        return view('job.show')->with(compact('job'));
+
+        return view('job.show')->with(compact('job','sameTitle'));
 
     }
 
@@ -160,6 +175,24 @@ $job_image->save();
 
         $jobs=Job::where('user_id',Auth::user()->id)->latest()->paginate(4);
         return view('job.myjobs',compact('jobs'));
+    }
+
+
+
+    public function myJobs(Job $job,Request $request)
+    {
+       if($request->ajax()){
+         $data=Job::where('user_id',Auth::user()->id)->latest()->get();
+           return datatables::of($data)
+           ->addIndexColumn()
+           ->addColumn('action',function($row){
+               $actionBtn='<a href="{{route("job.show",$job)}}" class="edit btn btn-success btn-sm">View</a>';
+               return $actionBtn;
+           })
+           ->rawColumns(['action'])
+           ->make(true);
+       }
+       return view('job.myjobs');
     }
     public function applications($id)
     {

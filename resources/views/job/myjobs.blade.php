@@ -22,15 +22,10 @@
   @include('layouts.partials.message')
 
   <br>
-  <div class="search-box">
-    <form action="" class="form-inline d-flex justify-content-center md-form form-sm">
-        <input type="text"  placeholder="Search Here" class="form-control form-control-sm mr-3 w-75" aria-label="Search">
-        <i class="fas fa-search"></i>
-    </form>
-    </div>
-  <br>
+  
+  
 
-  @foreach ($jobs as $job)
+  {{-- @foreach ($jobs as $job)
 
   <div class="card">
       <div class="card-body px-auto pb-0 pt-1" >
@@ -99,7 +94,7 @@
 
 
 <br>
-@endforeach
+@endforeach --}}
 
 {{-- @foreach ($jobs as $job)
 
@@ -192,13 +187,48 @@
          <hr>
 <br><br>
    @endforeach --}}
+<table class="table table-bordered table-striped myJobs">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>title</th>
+            <th>location</th>
+            <th>address</th>
+            <th> Deadline</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
 
          </div>
-   {{ $jobs->onEachSide(1)->links() }}
+   {{-- {{ $jobs->onEachSide(1)->links() }} --}}
    @stop
    @section('scripts')
+   <script src="{{ asset('plugins/dataTables/jquery.dataTables.min.js') }}"></script>
+   <script  src="{{ asset('plugins/dataTables/DataTables-1.10.23/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script  src="{{ asset('plugins/dataTables/Responsive-2.2.7/js/dataTables.responsive.min.js') }}"></script>
+    <script  src="{{ asset('plugins/dataTables/Responsive-2.2.7/js/responsive.bootstrap4.min.js') }}"></script>
+    <script  src="{{ asset('plugins/dataTables/Buttons-1.6.5/js/buttons.bootstrap4.min.js') }}"></script>
 
-   <script src="{{ asset('js/date.js') }}"></script>
-
+<script>
+    $(document).ready( function () {
+    $('.myJobs').DataTable({
+    processing:true,
+    serverSide:true,
+    ajax:"{{ route('job.myjobs') }}",
+    columns:[
+        {data:'DT_RowIndex',name:'DT_RowIndex'},
+        { data:'title',name:'title'},
+        {data:'location',name:'location'},
+         { data:'address',name:'address'},  
+         { data:'due',name:'due'},       
+        {data:'action',name:'action',orderable:true,searchable:true},
+        ]
+    });
+});
+</script>
 
    @stop

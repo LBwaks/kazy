@@ -22,7 +22,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('category', 'CategoryController');
 // Route::get('/home', 'HomeController@index')->name('home');
-Route::get('job/job/', 'JobController@job')->name('job.My-Jobs');
+// Route::get('job/job/', 'JobController@job')->name('job.My-Jobs');
+Route::get('job/job/', 'JobController@myJobs')->name('job.myjobs');
 // Route::get('jobs/bid/', 'JobsController@bid')->name('jobs.bid');
 Route::get('job/{slug}/applications', 'JobController@applications')->name('applications');
 Route::get('users/{name}/applicant', 'ApplicationController@applicant')->name('applicant');
@@ -35,7 +36,7 @@ Route::resource('users', 'UserController');
 // Route::resource('categories', 'CategoriesController');
 // Route::get('bids/failed/', 'BidsController@myBid')->name('bids.failed');
 Route::get('applications/pending/', 'ApplicationController@pending')->name('pending');
-// Route::get('bids/approved/', 'BidsController@approved')->name('bids.approved');
+Route::get('applications/approved/', 'ApplicationController@approved')->name('approved');
 // Route::get('bids/bidList/', 'BidsController@bidList')->name('bids.bids');
 // Route::get('jobs.bids/{job}', 'BidsController@bid')->name('bids.bid');
 Route::resource('job.applications', 'ApplicationController')->except(['index']);
@@ -46,3 +47,7 @@ Route::get('job/{application}/application','ApproveApplicationController')->name
 // Route::get('/markAsRead', function(){
 //     auth()->user()->unreadNotifications->markAsRead();
 // });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

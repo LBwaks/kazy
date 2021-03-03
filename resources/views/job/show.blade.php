@@ -32,7 +32,9 @@
 
      <div class="container">
         <div class="row">
-           <div class="col-md-9">
+
+           <div class="col-md-9 border border-secondary">
+
 
 <div>
 <span class="font-weight-bolder h5-responsive">{{ $job->title }}  </span>
@@ -93,6 +95,25 @@
 @endif
 
                           </span>
+
+                          <span>
+
+                            @if(count($job->videos))
+                            <br><br>
+                            <h5 class="font-weight-bolder">Job Video(s)</h5>
+
+      @foreach ($job->videos as $video)
+
+      <video class="img-fluid" width="800" height="400" controls>
+        <source src="/video/job_video/{{ $video->videos ? $video->videos :''}}" alt="{{ Str::limit($job->title,50) }}" type="video/mp4">
+        <source src="/video/job_video/{{ $video->videos ? $video->videos :''}}" alt="{{ Str::limit($job->title,50) }}" type="video/ogg">
+        Your browser does not support HTML5 video.
+      </video>
+
+      @endforeach
+
+      @endif
+                          </span>
 <br>
 <br>
 <div class="clearfix">
@@ -100,7 +121,7 @@
 <span class="float-left">
 
     {{-- @can('create',$job) --}}
-    <a href="{{ route('job.applications.create',$job->id) }}" class="btn btn-outline-info btn">Bid this job</a>
+    <a href="{{ route('job.applications.create',$job->id) }}" class="btn btn-outline-info btn">Apply This Job</a>
     {{-- @endcan --}}
  </span>
 
@@ -125,16 +146,23 @@
 
            </div>
            <div class="col-md-3">
-               Similar Jobs
+               Similar Jobs title
                <ul class="list-group list-group-flush">
+              @foreach($sameTitle as $job)
+
+                   <li class="list-group-item"> <a href="" > {{ $job->title}}</a></li>
+              @endforeach
+
+              </ul>
+              <br>
+Jobs From same location
+              <ul class="list-group list-group-flush">
                 <li class="list-group-item">First item</li>
                 <li class="list-group-item">Second item</li>
                 <li class="list-group-item">Third item</li>
                 <li class="list-group-item">Fourth item</li>
               </ul>
-
-
-              You may Also like
+              Jobs with same tags
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">First item</li>
                 <li class="list-group-item">Second item</li>

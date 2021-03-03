@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Job extends Model
 {
     // use Sluggable;
-    protected $fillable=['reference','title','slug','description','location','address','due','photo'];
+    protected $fillable=['reference','title','slug','description','location','address','due','photo','videos'];
 
     // public function sluggable()
     // {
@@ -21,6 +21,7 @@ class Job extends Model
     {
       return $this->belongsTo('App\User');
     }
+
     public function categories()
     {
       return $this->belongsToMany('App\Category');
@@ -30,22 +31,32 @@ class Job extends Model
   {
       return route('job.show',$this->id);
   }
+
   public function images(){
       return $this->hasMany('App\Jobimage');
   }
+
+  public function videos()
+  {
+     return $this->hasMany('App\Jobvideo');
+  }
+
   public function getCreatedDateAttribute()
   {
       return $this->created_at->diffForHumans();
     //   return $this->created_at->format('D ,j M Y , h:i a');
   }
+
   public function applications()
   {
      return $this->hasMany('App\Application');
   }
+
   public function getFirstImageAttribute()
   {
       return $this->hasOne('App\Jobimage');
   }
+
   public function approvedApplication(Application $application)
   {
       $this->application_id=$application->id;

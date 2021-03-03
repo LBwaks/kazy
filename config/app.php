@@ -162,10 +162,11 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+
         /*
          * Package Service Providers...
          */
-
+        LaravelFrontendPresets\ArgonPreset\ArgonPresetServiceProvider::class,
         /*
          * Application Service Providers...
          */

@@ -35,12 +35,13 @@
                 <h2 class="lead"><b>{{ $application->user->name }}</b></h2>
                 <p class="text-muted text-sm"><b>Charge: </b>{{$application->charge}} </p>
                 <p class="text-muted text-sm"><b>Duration: </b>{{$application->duration}} {{ $application->time }} </p>
+                <p class="text-muted text-sm"><b>Time Available: </b>02/20/2021 12:00 AM - 02/20/2021 11:59 PM </p>
                 <p class="text-muted text-sm"><b>Time Applied: </b>{{ $application->created_date }} </p>
                 <p class="text-muted text-sm"><b>Accredited: </b>YES </p>
 
               </div>
               <div class="col-5 text-center">
-                  <img src="{{ asset($application->user->profile_image) }}" alt="{{$application->user->name}}"
+                  <img src="{{ asset('/images/profile/'.$application->user->profile_image) }}" alt="{{$application->user->name}}"
                  class="img-circle img-fluid">
               </div>
               <div class="modal" id="myModal">

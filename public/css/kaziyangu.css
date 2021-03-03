@@ -55,9 +55,13 @@ html {
     width: 2.1rem;
   }
 
-  .sn-bg-4 {
-    background-image: url("img/1615431.jpg"); }
+  .side-nav .sn-bg-4 {
 
+    background-image: url('/images/app/1615431.jpg');
+ }
+ .side-nav .sn-bg-4 .logo-wrapper {
+     height:50 rem;
+ }
 /**********************endnavbar***********************/
 /******************************/
 .img-circle {
@@ -652,7 +656,7 @@ a.account {
 
 background-image:url('/images/app/1615431.jpg');
 }
-.home-section {
+/* .home-section {
     position: relative; }
     .home-section > .container {
       z-index: 2;
@@ -727,7 +731,7 @@ background-image:url('/images/app/1615431.jpg');
       color: #343a40; }
     .home-section .search-jobs-form .form-control::-webkit-input-placeholder {
       /* Chrome/Opera/Safari */
-      color: rgba(52, 58, 64, 0.5); }
+      /* color: rgba(52, 58, 64, 0.5); }
     .home-section .search-jobs-form .form-control::-moz-placeholder {
       color: rgba(52, 58, 64, 0.5); }
     .home-section .search-jobs-form .form-control:-ms-input-placeholder {
@@ -821,4 +825,4 @@ background-image:url('/images/app/1615431.jpg');
                     z-index: 1; }
                   .bg-image.overlay-blue > .container {
                     position: relative;
-                    z-index: 2; }
+                    z-index: 2; } */ */

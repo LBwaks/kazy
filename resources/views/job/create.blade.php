@@ -3,6 +3,7 @@
 @section('content')
 @include('layouts.partials.message')
 <br>
+<br>
 <section class="content-header mt-5">
     <div class="container">
       <div class="row mb-0">
@@ -42,37 +43,38 @@
 </div>
 
 <div class="form-group">
-{!! Form::label('category_id','Category:') !!}
+{!! Form::label('category_id','Job Category:') !!}
 {!! Form::select('category_id[]',$category,null,['class'=>'form-control  select2bs4','multiple']) !!}
+    </div>
+    <div class="form-group">
+        {!! Form::label('description','Description About This Job:') !!}
+        {!! Form::textarea('description',old('description'),['id'=>'editor1'],['class'=>'form-control','rows'=>'2','required'=>'yes','id'=>'description']) !!}
+        <div class="invalid-feedback">Please fill out description field.</div>
+    </div>
+    <div class="form-group">
+        {!! Form::label('work','What needs to be done:') !!}
+        {!! Form::textarea('work',old('work'),['id'=>'editor2'],['class'=>'form-control','rows'=>'3','required'=>'yes','id'=>'description']) !!}
+        <div class="invalid-feedback">Please fill out description field.</div>
     </div>
 
         <div class="form-group">
-    {!! Form::label('due','Time Due:') !!}
+    {!! Form::label('due','Deadline:') !!}
     {!! Form::date('due',old('due'),['class'=>'form-control','required'=>'yes','id'=>'due']) !!}
     <div class="invalid-feedback">Please fill out time due field.</div>
         </div>
 
 
         <div class="form-group">
-            {!! Form::label('location','Location:') !!}
+            {!! Form::label('location','Job Location:') !!}
             {!! Form::text('location',old('location'),['class'=>'form-control','required'=>'yes','id'=>'location']) !!}
             <div class="invalid-feedback">Please fill out location field.</div>
                 </div>
                 <div class="form-group">
-                    {!! Form::label('address','Address:') !!}
+                    {!! Form::label('address','Job Address:') !!}
                     {!! Form::text('address',old('address'),['class'=>'form-control','required'=>'yes','id'=>'address'])!!}
                     <div class="invalid-feedback">Please fill out address field.</div>
                         </div>
-                        <div class="form-group">
-                            {!! Form::label('description','Description:') !!}
-                            {!! Form::textarea('description',old('description'),['id'=>'editor1'],['class'=>'form-control','rows'=>'2','required'=>'yes','id'=>'description']) !!}
-                            <div class="invalid-feedback">Please fill out description field.</div>
-                        </div>
-                        <div class="form-group">
-                            {!! Form::label('description','What needs to be done:') !!}
-                            {!! Form::textarea('description',old('description'),['id'=>'editor2'],['class'=>'form-control','rows'=>'3','required'=>'yes','id'=>'description']) !!}
-                            <div class="invalid-feedback">Please fill out description field.</div>
-                        </div>
+
 
         <p class="mb-1">Job's Image:<span class="text-primary">(Not Complusary)</span> </p>
         <div class="custom-file">
@@ -84,11 +86,10 @@
         <br>
         <p class="mb-1">Job's Video:<span class="text-primary">(Not Complusary)</span> </p>
         <div class="custom-file">
-            {!! Form::label('image','Jobs Image',['class'=>'custom-file-label']) !!}
-            {!! Form::file('photo[]',['class'=>'custom-file-input','multiple'=>'multiple']) !!}
+            {!! Form::label('video','Jobs Video',['class'=>'custom-file-label']) !!}
+            {!! Form::file('video[]',['class'=>'custom-file-input','multiple'=>'multiple']) !!}
 
         </div>
-
 
 
                                         <script>

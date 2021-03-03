@@ -1,20 +1,17 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <title>@yield('title')</title>
+    <title>Kazy-Yangu - @yield('title')</title>
     @include('layouts.partials.meta')
-
 </head>
 <body class="hidden-sn grey-skin">
-
-            @yield('content')
 <div id="app">
-            @include('layouts.partials.header')
-            <main>
-                <section class="content">
+ @include('layouts.partials.header')
+<main>
+        <section class="content">
            <div class="container-fluid">
+            @yield('content')
         </div>
-
         </section>
      </main>
      @include('layouts.partials.footer')

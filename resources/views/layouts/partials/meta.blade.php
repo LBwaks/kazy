@@ -24,5 +24,10 @@
     <link rel="stylesheet" href="{{ asset('plugins/DataTables-1.10.23/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/DataTables-1.10.23/css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/dataTables/datatables.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('plugins/dataTables/DataTables-1.10.23/css/dataTables.bootstrap4.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('plugins/dataTables/Buttons-1.6.5/css/buttons.bootstrap4.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('plugins/dataTables/Responsive-2.2.7/css/responsive.bootstrap4.min.css') }}">
 
 

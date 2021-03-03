@@ -1,7 +1,7 @@
 @extends('layouts.app')
-@section('title', 'Pending Bids')
+@section('title', 'Pending Applications')
 @section('content')
-<br>
+
 <section class="content-header mt-5">
     <div class="container">
       <div class="row mb-2">
@@ -12,18 +12,60 @@
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ route('job.index') }}">Job</a></li>
-            <li class="breadcrumb-item active">My Jobs</li>
+            <li class="breadcrumb-item active">Pending Applications</li>
           </ol>
         </div>
       </div>
     </div><!-- /.container-fluid -->
   </section>
+<br>
   <div class="container">
       <div class="row">
-          <div class="col-md-10">
-              {!! $dataTable->table() !!}
+          <div class="col-md-12">
+            <table class="table table-bordered table-striped
+            pending">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Charge</th>
+                        <th>Duration</th>
+                        <th>Time</th>
+                        <th> Approved</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
           </div>
       </div>
   </div>
-  {!! $dataTable->scripts() !!}
+
   @stop
+@section('scripts')
+<script src="{{ asset('plugins/dataTables/jquery.dataTables.min.js') }}"></script>
+<script  src="{{ asset('plugins/dataTables/DataTables-1.10.23/js/dataTables.bootstrap4.min.js') }}"></script>
+ <script  src="{{ asset('plugins/dataTables/Responsive-2.2.7/js/dataTables.responsive.min.js') }}"></script>
+ <script  src="{{ asset('plugins/dataTables/Responsive-2.2.7/js/responsive.bootstrap4.min.js') }}"></script>
+ <script  src="{{ asset('plugins/dataTables/Buttons-1.6.5/js/buttons.bootstrap4.min.js') }}"></script>
+
+<script>
+ $(document).ready( function () {
+ $('.pending').DataTable({
+ processing:true,
+ serverSide:true,
+ ajax:"{{ route('pending') }}",
+ columns:[
+     {data:'DT_RowIndex',name:'DT_RowIndex'},
+     { data:'charge',name:'charge'},
+     {data:'duration',name:'duration'},
+      { data:'time',name:'time'},
+      { data:'approved',name:'approved'},
+     {data:'action',name:'action',orderable:true,searchable:true},
+     ]
+ });
+});
+</script>
+
+@stop

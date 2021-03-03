@@ -1,17 +1,8 @@
 
  <header>
     <!-- Sidebar navigation -->
-    <div id="slide-out" class="side-nav sn-bg-4" style="background-image: url('/images/app/4453925_800n.jpg');">
+    <div id="slide-out" class="side-nav sn-bg-4">
       <ul class="custom-scrollbar">
-        <!-- Logo -->
-        <li>
-          <div class="logo-wrapper waves-light">
-
-            <a href="#"><img src="/images/app/ky.png" class="img-fluid img-circle flex-center"></a>
-          </div>
-        </li>
-        <!--/. Logo -->
-        <!--Social-->
         <li>
           <ul class="social">
             <li><a href="#" class="icons-sm fb-ic"><i class="fab fa-facebook"> </i></a></li>
@@ -20,42 +11,25 @@
             <li><a href="#" class="icons-sm tw-ic"><i class="fab fa-twitter"> </i></a></li>
           </ul>
         </li>
-        <!--/Social-->
-        <!--Search Form-->
-        <li>
-          <form class="search-form" role="search">
-            <div class="form-group md-form mt-0 pt-1 waves-light">
-              <input type="text" class="form-control" placeholder="Search">
-            </div>
-          </form>
-        </li>
-        <!--/.Search Form-->
-        <!-- Side navigation links -->
+
+
+
         <li>
           <ul class="collapsible collapsible-accordion">
+            <li><a href="{{ url('/home') }}" class="collapsible-header waves-effect" ><i class="fas fa-home"></i>Home</a></li>
             <li><a href="{{ route('job.index') }}" class="collapsible-header waves-effect" ><i class="fas fa-briefcase"></i>Jobs</a></li>
             <li><a href="{{ route('job.create') }}" class="collapsible-header waves-effect"><i class="fas fa-edit"></i>Post Job</a></li>
-            <li><a class="collapsible-header waves-effect" href="#"><i class="fas fa-desktop"></i>Magazine</a></li>
 
-            <li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-briefcase"></i> Jobs<i class="fas fa-angle-down rotate-icon"></i></a>
-              <div class="collapsible-body">
-                <ul>
-                  <li><a href="#" class="waves-effect">Jobs</a>
-                  </li>
-                  <li><a href="#" class="waves-effect">Create Jobs</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
+
             @if (Route::has('login'))
             @auth
-            <li><a class="collapsible-header waves-effect arrow-r"><i class="far fa-hand-pointer"></i>
+            <li><a class="collapsible-header waves-effect arrow-r"><i class="far fa-file"></i>
                 Job Applications<i class="fas fa-angle-down rotate-icon"></i></a>
               <div class="collapsible-body">
                 <ul>
-                  <li><a href="#" class="waves-effect">Approved Applications</a>
+                  <li><a href="{{ route('approved') }}" class="waves-effect">Approved Applications</a>
                   </li>
-                  <li><a href="#" class="waves-effect">Pending  Applications</a>
+                  <li><a href="{{ route('pending') }}" class="waves-effect">Pending  Applications</a>
                   </li>
                   <li><a href="#" class="waves-effect">Failed   Applications</a>
                   </li>
@@ -64,20 +38,21 @@
             </li>
             @endauth
             @endif
-            <li><a class="collapsible-header waves-effect arrow-r"><i class="far fa-eye"></i> About<i class="fas fa-angle-down rotate-icon"></i></a>
-              <div class="collapsible-body">
-                <ul>
-                  <li><a href="#" class="waves-effect">Introduction</a>
-                  </li>
-                  <li><a href="#" class="waves-effect">Monthly meetings</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
 
+            <li><a class="collapsible-header waves-effect" href="#"><i class="fas fa-info-circle"></i>About Us</a></li>
+            <li><a class="collapsible-header waves-effect" href="#"><i class="fas fa-envelope"></i>Contact Us</a></li>
             @auth
-            <li><a class="collapsible-header waves-effect" href="#"><i class="fas fa-power-off"></i>Logout</a></li>
-            @endauth
+            <li>
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                              document.getElementById('logout-form').submit();">
+                              <i class="fas fa-power-off mr-2"></i> {{ __('Logout') }}
+             </a>
+
+             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                 @csrf
+             </form>
+             @endauth
           </ul>
         </li>
         <!--/. Side navigation links -->
@@ -158,7 +133,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            <img src="{{ asset(Auth::user()->profile_image) }}" alt="{{auth::user()->name}}" height="35" width="35" class="img-circle">
+            <img src="{{ asset('/images/profile/'.Auth::user()->profile_image) }}" alt="{{auth::user()->name}}" height="35" width="35" class="img-circle">
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
             <div class="arrow_box_right">
@@ -166,7 +141,7 @@
               <div class="">
 
 
-                              <img src="{{ asset(Auth::user()->profile_image) }}" alt="{{ Str::limit(Auth::user()->profile_image) }}" height="35" width="35" class="img-circle">
+                              <img src="{{ asset('/images/profile/'.Auth::user()->profile_image) }}" alt="{{ Str::limit(Auth::user()->profile_image) }}" height="35" width="35" class="img-circle">
               </div>
               <div class="info">
                 <span href="#" class="d-block">{{ Auth::user()->name }}</span>
@@ -178,20 +153,20 @@
                   <i class="fas fa-user-edit mr-2"></i>Profile
 
                 </a>
-                <a href="{{ route('job.My-Jobs') }}" class="dropdown-item">
+                <a href="{{ route('job.myjobs') }}" class="dropdown-item">
                   <i class="fas fa-briefcase mr-2"></i>My Jobs
 
                 </a>
                  <a href="{{ route('pending') }}" class="dropdown-item">
-                  <i class="fas fa-briefcase mr-2"></i>Pending Bids
+                  <i class="fas fa-briefcase mr-2"></i>Pending Applications
 
                 </a>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-briefcase mr-2"></i>Approved Bids
+                <a href="{{route('approved')}}" class="dropdown-item">
+                    <i class="fas fa-briefcase mr-2"></i>Approved Applications
 
                   </a>
                   <a href="#" class="dropdown-item">
-                    <i class="fas fa-briefcase mr-2"></i>Failed Bids
+                    <i class="fas fa-briefcase mr-2"></i>Failed Applications
 
                   </a>
                 <a class="dropdown-item" href="{{ route('logout') }}"
@@ -205,7 +180,7 @@
              </form>
 
 
-                </a>
+
                </div>
 
           </div>

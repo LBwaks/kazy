@@ -2,7 +2,9 @@
 @section('pageTitle', 'Home')
 @section('content')
 
-<section class="home-section section-hero overlay bg-image " style="background-image: url('/images/app/1615431.jpg');" id="home-section">
+{{-- <section class="home-section section-hero overlay bg-image"
+
+id="home-section">
 <br>
     <div class="container">
       <div class="row d-flex mt-5">
@@ -12,13 +14,16 @@
             <h1 class="text-white font-weight-light"></h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate est, consequuntur perferendis.</p>
           </div>
+
           <form method="post" class="search-jobs-form">
             <div class="row mb-5">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                 <input type="text" class="form-control form-control-lg" placeholder="Job title, Company...">
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Region">
+                <select class="selectpicker"
+                 {{-- data-style="btn-white btn-lg"
+                 data-width="100%" data-live-search="true" title="Select Region">
                   <option>Anywhere</option>
                   <option>San Francisco</option>
                   <option>Palo Alto</option>
@@ -67,8 +72,8 @@
       <span class=" icon-keyboard_arrow_down"></span>
     </a>
 
-  </section>
-   {{-- <div class="home-content mt-5 mb-0">
+  </section> --}}
+   <div class="home-content mt-5 mb-0">
 
         <div class="cover">
        <div class="cover-header ">
@@ -109,7 +114,7 @@
 
     </div>
     </div>
-    </div> --}}
+    </div>
 
                @stop
                @section('scripts')

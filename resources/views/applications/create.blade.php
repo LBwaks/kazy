@@ -77,7 +77,17 @@ value="day"
                       </div>
                   </div>
               </div>
+              <div class="form-group">
+                <label>Date and time range:</label>
 
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="far fa-clock"></i></span>
+                  </div>
+                  <input type="text" name="availability" class="form-control float-right" id="availabilitytime">
+                </div>
+                <div class="invalid-feedback">Please Availability Time.</div>
+              </div>
  {{-- @can('create',$job) --}}
               <button type="submit" class="btn  btn-sm btn-primary">Submit</button>
               <script>
@@ -115,8 +125,17 @@ value="day"
 
     @stop
     @section('scripts')
-
-
+    <script src="{{asset('plugins/moment/moment.min.js') }}"></script>
+    <script src="{{asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
+ <script>
+     $('#availabilitytime').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 30,
+      locale: {
+        format: 'MM/DD/YYYY hh:mm A'
+      }
+    })
+ </script>
 
 
     @stop

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Application;
-use App\DataTables\PendingDataTable;
+
 use App\Job;
 use App\User;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,46 +47,44 @@ class ApplicationController extends Controller
     {
 
         $request->validate([
+
+            'availability'=>'required',
             'charge'=>'required|numeric',
             'duration'=>'required|numeric',
             'time'=>'required'
         ]);
-        $duration='duration'.' '.'time';
+
         $user=Auth::user();
-        dd($application->job_id,
-             $application->user_id,
-             $job->id,
-             $user->id );
-    //     if($user->id !== $job->user_id){
-    //         if( $application->job_id === $job->id && $application->user_id ===$user ){
+        if($user->id !== $job->user_id){
+            if( $application->job_id === $job->id && $application->user_id ===$user ){
 
-    //             abort(403,'You have Already Applied For This Job');
-    //         }
-    //         else{
-    //             $application=$job->applications()->create([
+                abort(403,'You have Already Applied For This Job');
+            }
+            else{
+                $application=$job->applications()->create([
 
 
+                    'time_available'=>$request->availability,
+                    'time'=>$request->time,
+                      'charge'=>$request->charge,
+                     "duration"=>$request->duration,
+                      'user_id'=>\Auth::id()]);
 
-    //                 'time'=>$request->time,
-    //                   'charge'=>$request->charge,
-    //                  "duration"=>$request->duration,
-    //                   'user_id'=>\Auth::id()]);
+            }
 
-    //         }
+        if($application)
+        {
+            // $user=$job->user;
+            // $user->notify(new NewBid($bid));
+            return redirect()->route('job.index')->with('success', '   Application Successful!');
 
-    //     if($application)
-    //     {
-    //         // $user=$job->user;
-    //         // $user->notify(new NewBid($bid));
-    //         // return redirect()->route('bids.myBids')->with('success','Bid Successful!');
-
-    //     }
-    //     else{
-    //         return redirect()->route('jobs.show')->with('failure','FAILED');
-    //     }
-    // }else{
-    //     abort(403,'You Cannot Apply  Your Own Job');
-    // }
+        }
+        else{
+            return redirect()->route('jobs.show')->with('failure','FAILED');
+        }
+    }else{
+        abort(403,'You Cannot Apply  Your Own Job');
+    }
 
 
     }
@@ -134,12 +133,39 @@ class ApplicationController extends Controller
     {
         //
     }
-     public function pending(PendingDataTable $datatable)
+     public function pending(Request $request)
      {
-        dd($datatable->render('applications.pending'));
+        if($request->ajax()){
+            $where=['user_id'=>Auth::user()->id,'approved'=>'No'];
+            $data=Application::where($where)->latest()->get();
+              return datatables::of($data)
+              ->addIndexColumn()
+              ->addColumn('action',function($row){
+                  $actionBtn='<a href="" class="edit btn btn-success btn-sm">View Application</a>';
+                  return $actionBtn;
+              })
+              ->rawColumns(['action'])
+              ->make(true);
+          }
+          return view('applications.pending');
      }
 
-
+public function approved(Request $request)
+{
+    if($request->ajax()){
+        $where=['user_id'=>Auth::user()->id,'approved'=>'Approved'];
+        $data=Application::where($where)->latest()->get();
+          return datatables::of($data)
+          ->addIndexColumn()
+          ->addColumn('action',function($row){
+              $actionBtn='<a href="" class="edit btn btn-success btn-sm">View Application</a>';
+              return $actionBtn;
+          })
+          ->rawColumns(['action'])
+          ->make(true);
+      }
+    return view('applications.approved');
+}
 
 
 
