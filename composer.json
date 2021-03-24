@@ -1,5 +1,6 @@
 {
-    "name": "laravel/laravel",
+ 
+   "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
     "keywords": [
@@ -8,19 +9,22 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2.5",
-        "cviebrock/eloquent-sluggable": "7.0",
-        "fideloper/proxy": "^4.2",
-        "fruitcake/laravel-cors": "^1.0",
-        "guzzlehttp/guzzle": "^6.3",
-        "laravel/framework": "^7.0",
-        "laravel/tinker": "^2.0",
-        "laravel/ui": "2.4",
-        "laravelcollective/html": "^6.2",
-        "spatie/laravel-permission": "^4.0",
-        "yajra/laravel-datatables": "1.5",
-        "yajra/laravel-datatables-oracle": "~9.0"
-    },
+      "php": "^7.2.5",
+      "cviebrock/eloquent-sluggable": "7.0",
+      "fideloper/proxy": "^4.2",
+      "fruitcake/laravel-cors": "^1.0",
+      "gathuku/laravelmpesa": "^1.2",
+      "guzzlehttp/guzzle": "^6.3",
+      "laravel/framework": "^7.0",
+      "laravel/scout": "^8.6",
+      "laravel/tinker": "^2.0",
+      "laravel/ui": "2.4",
+      "laravelcollective/html": "^6.2",
+      "tcg/voyager": "^1.4",
+      "willvincent/laravel-rateable": "^2.3",
+      "yajra/laravel-datatables": "1.5",
+      "yajra/laravel-datatables-oracle": "~9.0"
+   },
     "require-dev": {
         "facade/ignition": "^2.0",
         "fzaninotto/faker": "^1.9.1",
@@ -67,5 +71,11 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
+    },
+    "repositories": {
+        "hooks": {
+            "type": "composer",
+            "url": "https://larapack.io"
+        }
     }
 }

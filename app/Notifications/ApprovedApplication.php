@@ -29,7 +29,7 @@ class ApprovedApplication extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail',"database "];
     }
 
     /**
@@ -53,6 +53,18 @@ class ApprovedApplication extends Notification
      * @return array
      */
     public function toArray($notifiable)
+    {
+        return [
+            //
+        ];
+    }
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toDatabase($notifiable)
     {
         return [
             //

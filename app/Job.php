@@ -3,20 +3,23 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-// use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Laravel\Scout\Searchable;
 
 class Job extends Model
 {
-    // use Sluggable;
+    // use Searchable;
+    use Sluggable;
     protected $fillable=['reference','title','slug','description','location','address','due','photo','videos'];
+    protected $dates=['date'];
 
-    // public function sluggable()
-    // {
-    //     return[
-    //         'slug'=>['source'=>'title'],
-    //         'onUpdate'=>'true'
-    //     ];
-    // }
+    public function sluggable(): array
+    {
+        return[
+            'slug'=>['source'=>'title'],
+            // 'onUpdate'=>'true'
+        ];
+    }
     public function user()
     {
       return $this->belongsTo('App\User');
@@ -46,6 +49,11 @@ class Job extends Model
       return $this->created_at->diffForHumans();
     //   return $this->created_at->format('D ,j M Y , h:i a');
   }
+//   public function getDueDateAttribute()
+//   {
+//       return $this->due->diffForHumans();
+//     //   return $this->created_at->format('D ,j M Y , h:i a');
+//   }
 
   public function applications()
   {

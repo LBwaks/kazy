@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('v1/access/token', 'MpesaController@generateAccessToken');
+Route::post('v1/webtech/stk/push', 'MpesaController@customerMpesaSTKPush');
+Route::post('v1/webtech/validation', 'MpesaController@mpesaValidation');
+Route::post('v1/webtech/transaction/confirmation', 'MpesaController@mpesaConfirmation');
+Route::post('v1/webtech/register/url', 'MpesaController@mpesaRegisterUrls');

@@ -13,16 +13,16 @@ class Application extends Model
   {
     return $this->belongsTo('App\User');
   }
-
+  public function getUrlAttribute()
+  {
+      return route('application.show',$this->id);
+  }
 
   public function job()
   {
     return $this->belongsTo('App\Job');
   }
-  public function getUrlAttribute()
-  {
-      return route('bids.show',$this->id);
-  }
+
   public function getCreatedDateAttribute()
   {
       return $this->created_at->diffForHumans();

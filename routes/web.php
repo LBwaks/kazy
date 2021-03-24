@@ -21,8 +21,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('category', 'CategoryController');
-// Route::get('/home', 'HomeController@index')->name('home');
-// Route::get('job/job/', 'JobController@job')->name('job.My-Jobs');
+Route::get('category/categoryType', 'CategoryController@categoryType');
 Route::get('job/job/', 'JobController@myJobs')->name('job.myjobs');
 // Route::get('jobs/bid/', 'JobsController@bid')->name('jobs.bid');
 Route::get('job/{slug}/applications', 'JobController@applications')->name('applications');
@@ -30,6 +29,7 @@ Route::get('users/{name}/applicant', 'ApplicationController@applicant')->name('a
 Route::resource('job', 'JobController');
 // Route::get('job/{slug}', 'JobController@show');
 Route::get('users/myprofile', 'UserController@profile')->name('user.myprofile')->middleware('auth');
+Route::get('users/editprofile', 'UserController@edit')->name('editprofile')->middleware('auth');
 Route::resource('users', 'UserController');
 // Route::resource('jobs.application', 'ApplicationController');
 // Route::get('categories/jobsPerCategory', 'CategoriesController@categoriesJob')->name('categories.jobsPerCategory');
@@ -51,3 +51,8 @@ Route::get('job/{application}/application','ApproveApplicationController')->name
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});

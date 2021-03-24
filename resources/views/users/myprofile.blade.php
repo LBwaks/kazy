@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('pageTitle', 'Home')
 @section('content')
-<br>
-<section class="content-header mt-5">
+
+<section class="content-header">
     <div class="container-fluid">
       <div class="row mb-0">
         <div class="col-sm-6">
@@ -112,7 +112,7 @@ at seeker
                   <p class="text-muted">{{ Auth::user()->gender }}</p>
 
                   <hr>
-                  <a href="#" class="btn btn-primary btn-block"><b>Update Profile</b></a>
+                  <a href="{{ route('editprofile',$user->name) }}" class="btn btn-primary btn-block"><b>Update Profile</b></a>
                 </div>
                 <!-- /.card-body -->
               </div>
@@ -136,7 +136,7 @@ at seeker
                   <p class="text-muted">{{ Auth::user()->tell }}</p>
 
 
-                <button class=" text-center btn btn-lg btn-outline-primary btn-rounded  waves-effect z-depth-0">Add Contact</button>
+                <button class=" text-center btn btn-lg btn-outline-primary btn-rounded  waves-effect z-depth-0">Edit Contact</button>
                 </div>
               </div>
               <br>
@@ -150,9 +150,13 @@ at seeker
                 <p class="text-muted">
                   Tukts Technical Training Institute
                 </p>
+                <button class=" text-center btn btn-lg btn-outline-primary btn-rounded  waves-effect z-depth-0">Edit Highest Education Level</button>
+                <br>
+                <hr>
                 <strong><i class="fas fa-map-marker-alt mr-1"></i>Other Educationall Achievements </strong>
 
                 <p class="text-muted">Kamusibut Secondary School</p>
+                <button class=" text-center btn btn-lg btn-outline-primary btn-rounded  waves-effect z-depth-0">Edit Other Educationall Achievements</button>
 
                 <hr>
             </div>
@@ -164,7 +168,9 @@ at seeker
             </div>
 
             <div class="card-body">
-             Experience
+                <p class="text-muted"> Experience</p>
+             <br>
+             <button class=" text-center btn btn-lg btn-outline-primary btn-rounded  waves-effect z-depth-0">Add Experience</button>
 
             </div>
           </div>
@@ -174,12 +180,13 @@ at seeker
             <h3 class="font-weight-normal"> Skills</h3>
         </div>
             <div class="card-body">
-                <span class="badge badge-pill badge-primary">Plumbing</span>
+                <p><span class="badge badge-pill badge-primary">Plumbing</span>
                 <span class="badge badge-pill badge-secondary">Masonary</span>
                 <span class="badge badge-pill badge-success">Electrician</span>
                 <span class="badge badge-pill badge-dark">Chef</span>
-                <span class="badge badge-pill badge-info">Carpenter</span>
-
+                <span class="badge badge-pill badge-info">Carpenter</span></p>
+<br>
+<button class=" text-center btn btn-lg btn-outline-primary btn-rounded  waves-effect z-depth-0">Add Skill</button>
             </div>
           </div>
           <br>
@@ -189,6 +196,7 @@ at seeker
             </div>
             <div class="card-body">
                 <p class="text-muted">No CV & Certificates</p>
+                <button class=" text-center btn btn-lg btn-outline-primary btn-rounded  waves-effect z-depth-0">Add CV & Certificates</button>
 
             </div>
           </div>

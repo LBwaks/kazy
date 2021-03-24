@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Login')
 @section('content')
-<br><br>
+
 <div class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">

@@ -97,7 +97,7 @@ class ApplicationController extends Controller
      */
     public function show(Application $application)
     {
-        //
+        return view('applications.show')->with(compact('application'));
     }
 
     /**
@@ -133,15 +133,15 @@ class ApplicationController extends Controller
     {
         //
     }
-     public function pending(Request $request)
+     public function pending(Application $application,Request $request)
      {
         if($request->ajax()){
             $where=['user_id'=>Auth::user()->id,'approved'=>'No'];
             $data=Application::where($where)->latest()->get();
               return datatables::of($data)
               ->addIndexColumn()
-              ->addColumn('action',function($row){
-                  $actionBtn='<a href="" class="edit btn btn-success btn-sm">View Application</a>';
+              ->addColumn('action',function(Application $application){
+                  $actionBtn='<a href="'.$application->id.'" class="edit btn btn-success btn-sm">View Application</a>';
                   return $actionBtn;
               })
               ->rawColumns(['action'])

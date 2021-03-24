@@ -12,7 +12,14 @@
     var sideNavScrollbar = document.querySelector('.custom-scrollbar');
     var ps = new PerfectScrollbar(sideNavScrollbar);
 });
+$(document).ready(function() {
 
+	setTimeout(function(){
+		$('body').addClass('loaded');
+		// $('h1').css('color','#222222');
+	}, 3000);
+
+});
 
   </script>
 

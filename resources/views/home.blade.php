@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('pageTitle', 'Home')
+@section('title', 'Home')
 @section('content')
 
 {{-- <section class="home-section section-hero overlay bg-image"
@@ -73,26 +73,52 @@ id="home-section">
     </a>
 
   </section> --}}
-   <div class="home-content mt-5 mb-0">
+   <div class="home-content  mb-0 d-flex flex-column justify-content-center align-items-center">
 
-        <div class="cover">
+
        <div class="cover-header ">
-        <h1 class="px-3 pt-3 ">Kazi Yangu Jobs </h1>
-        <p class="px-3 pt-3 "> A platform that helps you connect to the most skilled personell for your job!</p>
+        <h1 class="px-3 pt-3 ">Kazy-Yangu Jobs </h1>
+        <h4 class="px-3 pt-3 "> A platform that helps you connect to the most skilled personell for your job!</h4>
        </div>
        <br>
        <br>
-       <div class="find d-flex justify-content-center  py-md-4 px-md-5">
-           <div class="card">
-               <div class="card-body search-box w-100">
-                <form class="form-inline d-flex flex-md-row flex-column align-items-center justify-content-around ">
-                    <div class="form-group">
+       <div class="find  w-75
+       justify-content-center  py-md-4 px-md-5 align-content-center">
+       <form method="post" class="search-jobs-form">
+        <div class="row mb-5">
+          {{-- <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+            <input type="text" class="form-control form-control-lg" placeholder="Job title, Company...">
+          </div> --}}
+          <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0">
+            <select id="" class="form-control form-control-lg mb-2 mr-sm-5"  name="">
+
+                <a href="{{ route('job.create') }}"> <option  value="">  Plumbing1</option></a>
+                <option value="">Plumbing</option>
+                <option value="">Plumbing</option>
+                <option value="">Carpenter</option>
+
+        </select>
+          </div>
+          <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0">
+            <input type="text" class="form-control form-control-lg" placeholder="Job Location">
+          </div>
+
+          <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0">
+            <button type="submit" class="btn btn-primary btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Search Job</button>
+          </div>
+        </div>
+
+      </form>
+
+
+                {{-- <form class="form-inline d-flex flex-md-row flex-column align-items-center justify-content-around ">
+                    <div class="form-group flex-fill">
                         <input type="text" id="" class="form-control mb-2 mr-md-5" placeholder=" Job eg. Plumber" name="" />
                     </div>
-                             <div class="form-group">
+                             <div class="form-group flex-fill">
                                 <input type="text" id="" class="form-control mb-2 mr-md-5" placeholder="Location" name="" />
                             </div>
-                    <div class="form-group category-select">
+                    <div class="form-group flex-fill category-select">
                         <select id="" class="form-control mb-2 mr-sm-5"  name="">
 
                             <option value="">Plumbing</option>
@@ -108,14 +134,13 @@ id="home-section">
 
                                   <button type="submit" class="btn btn-primary mb-2">Search</button>
                                 </div>
-                            </form>
-               </div>
-           </div>
+                            </form> --}}
+
 
     </div>
-    </div>
-    </div>
 
+    </div>
+<br>
                @stop
                @section('scripts')
                <script src="{{ asset('plugins/select2/js/bootstrap-select.min.js') }}"></script>

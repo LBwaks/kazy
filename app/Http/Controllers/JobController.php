@@ -26,12 +26,15 @@ class JobController extends Controller
      */
     public function index()
     {
-          $popular=Application::where('job_id','>',5)->count();
-        // $popular=Job::with('application')->count()->get();
-        $tags=Category::get();
-        $jobs=Job::with('user')->latest()->paginate(4);
-        // $job_image=Jobimage::with('images');
-        return view('job.index',compact('jobs','tags','popular'));
+        $populars=Job::inRandomOrder()->with('applications')
+        // take(5)
+        ->get();
+        // $applications=$job->applications()->latest()->paginate(5);
+
+        $popular_jobs= Application::inRandomOrder()->where('job_id','>',5)->take(5)->get();
+        $tags=Category::inRandomOrder()->get();
+        $jobs=Job::with('user')->where('application_id',null)->latest()->paginate(4);
+        return view('job.index',compact('jobs','tags','populars'));
     }
 
     /**
@@ -59,7 +62,7 @@ class JobController extends Controller
             'work'=>'required|min:50',
             'location'=>'required',
             'address'=>'required',
-            'due'=>'required',
+            'due'=>'required|date',
             'photo.*'=>'sometimes','mimes:jpeg,png,jpg|max:2048|nullable',
             'video.*'=>'sometimes','mimetypes:video/avi,video/mpeg,video/quicktime|max:12048|nullable',
                ]);
@@ -68,8 +71,8 @@ class JobController extends Controller
                $job->user()->associate(Auth::id());
                $job->reference=uniqid();
                $job->title=$request->title;
-               $job->slug=str::slug($request->title);
-            //    $job->slug=SlugService::createSlug(Job::class,'slug',$request->title);
+            //    $job->slug=str::slug($request->title);
+               $job->slug=SlugService::createSlug(Job::class,'slug',$request->title);
                $job->description=$request->description;
                $job->work_to_do=$request->work;
                $job->location=$request->location;
@@ -121,10 +124,10 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
-$sameTitle=Job::orderBy('id',"DESC")->take(4)->get();
-
-
-        return view('job.show')->with(compact('job','sameTitle'));
+        $tags=Category::inRandomOrder()->get();
+        $sameLocation=Job::where('id',$job)->get();
+   $otherJobs=Job::where('application_id',null)->inRandomOrder()->limit(5)->get();
+    return view('job.show')->with(compact('job','otherJobs','tags','sameLocation'));
 
     }
 
@@ -185,8 +188,8 @@ $sameTitle=Job::orderBy('id',"DESC")->take(4)->get();
          $data=Job::where('user_id',Auth::user()->id)->latest()->get();
            return datatables::of($data)
            ->addIndexColumn()
-           ->addColumn('action',function($row){
-               $actionBtn='<a href="{{route("job.show",$job)}}" class="edit btn btn-success btn-sm">View</a>';
+           ->addColumn('action',function(Job $job){
+               $actionBtn='<a href="'.$job->id.'" class="edit btn btn-success btn-sm">View</a>';
                return $actionBtn;
            })
            ->rawColumns(['action'])

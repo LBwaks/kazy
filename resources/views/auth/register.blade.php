@@ -2,7 +2,7 @@
 
 @section('content')
 
-<br>
+
 <div class="register-page">
 <div class="register-box">
   <div class="register-logo">

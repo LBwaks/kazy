@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Category;
 use Auth;
+use App\Job;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -71,11 +72,21 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category=Category::findOrFail($id);
-        $jobs=$category->jobs()->latest()->paginate(4);
-   return view('category.show')->with(compact('category'));
+        $category_jobs=$category->jobs()->latest()->paginate(4);
+        $otherJobs=Job::where('application_id',null)->inRandomOrder()->limit(5)->get();
+        $populars=Job::inRandomOrder()->with('applications')
+        // take(5)
+        ->get();
+   return view('category.show')->with(compact('category_jobs','category','otherJobs','populars'));
 
     }
+    public function showCategory($id)
+    {
+        $category=Category::findOrFail($id);
+        $jobs=$category->jobs()->latest()->paginate(4);
+   return view('category.show')->with(compact('category','jobs'));
 
+    }
     /**
      * Show the form for editing the specified resource.
      *

@@ -38,7 +38,7 @@
 
     @foreach ($jobs as $job)
 
-            <div class="card bg-light text-dark">
+            <div class="card  text-dark" style="background-color: rgba(96, 125, 135, 0.1)">
                 <div class="card-body px-auto pb-0 pt-1" >
                     <div class="row">
                         <div class=" col-md-8 col-sm-12 pr-0 mr-0">
@@ -62,7 +62,7 @@
                         <div class="pb-1 text-muted font-weight-light">
                             <i class="fas fa-user-circle  mr-1"></i>
                             <a href="{{ route('users.show',$job->user->name) }}"class="mr-2 font-italic">{{ $job->user->name }}</a>
-                            <span class="mr-2"><i class="fa fa-map-marker-alt mr-1"></i>  {{ $job->location }}</span>
+                            <span class="mr-2"><i class="fa fa-map-marker-alt fa-3x mr-1"></i>  {{ $job->location }}</span>
                              <span class="mr-2"><i class="fa fa-clock mr-1"></i> {{ $job->created_date }}</span>
                             </div>
 
@@ -82,12 +82,7 @@
 
                         @endforeach
 
-                       {{-- @if($job->images) --}}
-{{-- <div class="job-image">
-    <img class=" rounded " src="/images/job_image/{{ $job->firstImage}}" class="img-fluid"  height="175" alt="{{ Str::limit($job->title,50) }}">
-</div> --}}
 
-                   {{-- @endif --}}
 
 
 </div>
@@ -102,6 +97,7 @@
 
 <br>
    @endforeach
+   {{ $jobs->onEachSide(1)->links() }}
 </div>
 
 <div class="col-lg-4">
@@ -111,28 +107,19 @@
         <div class="card-header text-center">Popular Jobs based on applications</div>
         <div class="card-body">
             <ul class="list-group list-group-flush">
-                {{-- @foreach($popular as $job)
+                @foreach($populars as $job)
 
-                    <li class="list-group-item"><a href="{{ $job->url}}">{{Str::limit($job->title, 50)  }}</a></li>
-                @endforeach --}}
-                    <li class="list-group-item">Second item</li>
-                    <li class="list-group-item">Third item</li>
-                    <li class="list-group-item">Fourth item</li>
+                    <li class="list-group-item"><a href="
+                        {{-- {{ $job->url}} --}}
+
+                        ">{{Str::limit($job->title, 90)  }}</a></li>
+                @endforeach
+
                   </ul>
         </div>
     </div>
 <br>
-    <div class="card">
-        <div class="card-header text-center bg-primary">Almost closed Job</div>
-        <div class="card-body">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">First item</li>
-                <li class="list-group-item">Second item</li>
-                <li class="list-group-item">Third item</li>
-                <li class="list-group-item">Fourth item</li>
-              </ul>
-        </div>
-    </div>
+
 
 <br>
        <div class="card">
@@ -141,15 +128,26 @@
 
             </div>
         <div class="card-body">
-      @foreach($tags as $category)
-         <span class="m-2"> <i class="fas fa-tags fa-lg mr-1"></i><a href="{{ route('category.show',$category->id) }}" class="badge badge-pill badge-light ">{{ $category->job }}</a> </span>
-      @endforeach
+
+
+              <ul class="list-group">
+                @foreach($tags as $category)
+
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{{ route('category.show',$category->id) }}" class="text-black-50" >{{ $category->job }}</a>
+                    <span class="badge badge-primary badge-pill">{{ $category->jobs->count() }}</span>
+                  </li>
+                 @endforeach
+
+              </ul>
+
+
       </div>
       </div>
 </div>
 </div>
 
-   {{ $jobs->onEachSide(1)->links() }}
+
 </div>
 </div>
 @stop

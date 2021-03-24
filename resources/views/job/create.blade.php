@@ -3,8 +3,8 @@
 @section('content')
 @include('layouts.partials.message')
 <br>
-<br>
-<section class="content-header mt-5">
+
+<section class="content-header ">
     <div class="container">
       <div class="row mb-0">
         <div class="col-sm-5">
@@ -22,9 +22,12 @@
     </div>
   </section>
   <br>
+  <div class="card " style="background-color: rgba(76, 67, 54, 0.1)">
+    <div class="card-body px-0 mx-0">
 <div class="container-fluid">
     <div class="row">
        <div class="col-md-8 mx-auto">
+
            @if($errors->any())
            <div class="alert alert-danger">
                <ul>@foreach($errors->all() as $error)
@@ -33,14 +36,17 @@
                @endforeach</ul>
            </div>
            @endif
-{!!Form::open(['method'=>'POST','route'=>'job.store','class'=>'border border-light p-4 needs-validation ','novalidate','files'=>true]) !!}
-<p class="h4 mb-3 text-center">Job Details</p>
+           <h3 class="text-center">Fill Job Details</h3>
+{!!Form::open(['method'=>'POST','route'=>'job.store','class'=>'p-4 needs-validation ','novalidate','files'=>true]) !!}
+
 <div class="form-group">
 {!! Form::label('title','Job Title:') !!}
 {!! Form::text('title',old('title'),['class'=>'form-control','required'=>'yes','id'=>'title']) !!}
 
 <div class="invalid-feedback">Please fill out title field.</div>
 </div>
+
+
 
 <div class="form-group">
 {!! Form::label('category_id','Job Category:') !!}
@@ -101,14 +107,13 @@
                                             </script>
 
 
-                                        <div class="mt-3 text-center">
+                                        <div class="mt-3 mb-0 text-center">
                                             {!! Form::submit('Post Job',['class'=>'btn btn-outline-info btn btn-block ']) !!}
                                         </div>
 
 
 {!!Form::close()!!}
-<br>
-<br>
+
 <script>
 
     (function() {
@@ -127,9 +132,10 @@
       }, false);
     })();
     </script>
+
 </div>
-
-
+</div>
+</div>
 </div>
 </div>
 @stop

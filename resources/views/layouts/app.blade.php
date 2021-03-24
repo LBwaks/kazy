@@ -6,13 +6,15 @@
 </head>
 <body class="hidden-sn grey-skin">
 <div id="app">
+
+
  @include('layouts.partials.header')
 <main>
-        <section class="content">
-           <div class="container-fluid">
+
+           <div class="container-fluid" style="">
             @yield('content')
         </div>
-        </section>
+
      </main>
      @include('layouts.partials.footer')
     </div>

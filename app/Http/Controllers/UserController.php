@@ -8,6 +8,10 @@ use App\Job;
 use App\User;
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -47,9 +51,9 @@ class UserController extends Controller
      */
     public function show($name)
     {
-        // $user=User::where('name',$name)->first();
-        // $jobs=Job::where('user_id',$user->id)->latest()->paginate(5);
-        // return view('users.show',compact('jobs','user'));
+        $user=User::where('name',$name)->first();
+        $jobs=Job::where('user_id',$user->id)->latest()->paginate(5);
+        return view('users.show',compact('jobs','user'));
     }
 
     /**
@@ -58,9 +62,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(user $user)
     {
-        //
+        $user=Auth::user();
+        return view('users.editprofile')->with('user',$user);
     }
 
     /**

@@ -1,20 +1,20 @@
 @extends('layouts.app')
 @section('title', 'Job Details')
 @section('content')
-<br>
 
-<section class="content-header mt-5">
+
+<section class="content-header">
     <div class="container">
       <div class="row mb-0">
         <div class="col-sm-5">
-          <h1>Job Detail</h1>
+          <h1>Job Details</h1>
         </div>
         <div class="col-sm-7">
             <nav aria-label=" breadcrumb">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a  href="{{ url('/home') }}">Home</a></li>
             <li class="breadcrumb-item "><a  href="{{ route('job.index') }}">Jobs</a></li>
-            <li class="breadcrumb-item active">Job Detail</li>
+            <li class="breadcrumb-item active">Job Details</li>
           </ol>
             </nav>
         </div>
@@ -30,14 +30,19 @@
 </div>
  @include('layouts.partials.message')
 
-     <div class="container">
+ <div class="card " style="background-color: rgba(76, 67, 54, 0.1)">
+    <div class="card-body">
+        {{-- <div class="container"> --}}
         <div class="row">
 
-           <div class="col-md-9 border border-secondary">
+           <div class="col-md-9 mb-3">
+            <div class="card "style="background-color: #ebebe0">
+                <div class="card-header bg-white text-center"> <span class="h2-responsive">Job Details</span> </div>
+                <div class="card-body ml-md-5 ">
 
 
 <div>
-<span class="font-weight-bolder h5-responsive">{{ $job->title }}  </span>
+<span class="font-weight-bold h5-responsive">{{ $job->title }}  </span>
 
 </div>
 <br>
@@ -49,45 +54,50 @@
 </div>
 <br>
 <div>
-<h5 class="font-weight-bolder">  Time Due:</h5><span class="text-muted">{{ $job->due }}   (USE COUNTDOWN TIMER)</span>
+<h5 class=""> <u>Time Due:</u> </h5><span class="text-muted">{{ $job->due }}</span>
 
 </div>
 <br>
 <div>
-<h5 class="font-weight-bolder">Categories</h5>
+<h5 class=""><u>Categories</u></h5>
 @if($job->categories->count()===0)
 <span class="badge badge-pill badge-info">Open</span>
                  @endif
                 <span class="text-muted">
                     @foreach($job->categories as $category)
 
-                 <span><a href="{{ route('category.show',$category->id) }}" class="badge badge-pill badge-light">{{ $category->job }}</a> </span>
+                 <span><a href="{{ route('category.show',$category->id) }}" class="badge badge-lg badge-pill badge-light">{{ $category->job }}</a> ,</span>
                  @endforeach
                 </span>
 </div>
 <br>
 <div>
-<h5 class="font-weight-bolder">Job Reference </h5>
+<h5 class=""> <u>Job Reference</u> </h5>
 <span class="text-muted h6-responsive"> #{{ $job->reference }}</span>
 </div>
                                  <br>
                                <div>
-                                 <h5 class="font-weight-bolder"> Job Description</h5>
+                                 <h5 class=""><u>Job Description</u> </h5>
                             <span class="text-muted h6-responsive"> {!!$job->description !!}</span>
-                            <span class="text-muted h6-responsive"> {{strip_tags(str_replace('&nbsp;', ' ',$job->description))}}</span>
+                            <span class="text-muted h6-responsive"> {{$job->description}}</span>
                           </div>
                           <br>
+                          <div>
+                            <h5 class=""><u>Things To Do</u> </h5>
+                       <span class="text-muted h6-responsive"> {!!$job->work_to_do !!}</span>
 
+                     </div>
+                     <br>
                          <span>
 
 
-                            <h5 class="font-weight-bolder">Job Image(s)</h5>
+                            <h5 class=""><u>Job Image(s)</u> </h5>
                       @if(count($job->images))
 
 <br><br>
 @foreach ($job->images as $image)
-
-<img class="img-fluid" width="400" height="400" src="/images/job_image/{{ $image->images ? $image->images :''}}" alt="{{ Str::limit($job->title,50) }}">
+<a href="/images/job_image/{{ $image->images ? $image->images :''}}" data-lightbox="photos"><img class="img-fluid" width="400" height="400" src="/images/job_image/{{ $image->images ? $image->images :''}}" alt="{{ Str::limit($job->title,50) }}"></a>
+{{-- <img class="img-fluid" width="400" height="400" src="/images/job_image/{{ $image->images ? $image->images :''}}" alt="{{ Str::limit($job->title,50) }}"> --}}
 
 @endforeach
 @else
@@ -100,7 +110,7 @@
 
                             @if(count($job->videos))
                             <br><br>
-                            <h5 class="font-weight-bolder">Job Video(s)</h5>
+                            <h5 class=""><u>Job Video(s)</u> </h5>
 
       @foreach ($job->videos as $video)
 
@@ -125,12 +135,13 @@
     {{-- @endcan --}}
  </span>
 
-<span class="float-right">
+<span class="float-md-right float-sm-left">
     @can('update',$job)
     <a href="{{ route('applications',$job->id) }}" class="btn btn btn-outline-info"><span class="badge badge-pill badge-dark">{{ $job->applications->count() }}</span>  Applications</a>
 <a href="{{ route('job.edit',$job->id) }}" class="btn btn btn-outline-info">Edit</a>
 @endcan</span>
-<span class="float-right">
+
+<span class="float-md-right float-sm-left">
      @can('delete',$job)
 <form action="{{ route('job.destroy',$job->id) }}" method="POST">
 {{ method_field('delete') }}
@@ -143,33 +154,56 @@
 </div>
 
 
-
+                </div>
+            </div>
            </div>
-           <div class="col-md-3">
-               Similar Jobs title
-               <ul class="list-group list-group-flush">
-              @foreach($sameTitle as $job)
+<br>
+           <div class="col-md-3 sm-mt-3">
+            <div class="card ">
+                <div class="card-header text-center">Jobs You May like</div>
+                <div class="card-body">
 
-                   <li class="list-group-item"> <a href="" > {{ $job->title}}</a></li>
+               <ul class="list-group list-group-flush">
+              @foreach($otherJobs as $job)
+              <a href="{{ $job->url}}" class="list-group-item list-group-item-action">{{ $job->title}}</a>
+
               @endforeach
 
               </ul>
-              <br>
-Jobs From same location
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">First item</li>
-                <li class="list-group-item">Second item</li>
-                <li class="list-group-item">Third item</li>
-                <li class="list-group-item">Fourth item</li>
-              </ul>
-              Jobs with same tags
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">First item</li>
-                <li class="list-group-item">Second item</li>
-                <li class="list-group-item">Third item</li>
-                <li class="list-group-item">Fourth item</li>
-              </ul>
-           </div>
-         </div>   </div></div>
+                </div>
+            </div>
+            <br>
+            @foreach($sameLocation as $location)
+            Hello world
+            <a href="
+            {{-- {{ $job->url}} --}}
+            " class="list-group-item list-group-item-action">{{ $location->location}}</a>
 
-@endsection
+            @endforeach
+            <div class="card ">
+                <h4 class="card-header text-center">Job Tags</h4>
+                <div class="card-body">
+
+
+                    <ul class="list-group">
+                        @foreach($tags as $category)
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{{ route('category.show',$category->id) }}" class="text-black-50" >{{ $category->job }}</a>
+                            <span class="badge badge-primary badge-pill">{{ $category->jobs->count() }}</span>
+                          </li>
+                         @endforeach
+
+                      </ul>
+                </div>
+            </div>
+            <br>
+           </div>
+         </div>
+         {{-- </div> --}}
+        </div></div>
+
+        @stop
+        @section('scripts')
+        <script src="{{ asset('plugins/lightbox/js/lightbox.min.js') }}"> </script>
+        @stop
