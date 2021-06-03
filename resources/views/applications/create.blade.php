@@ -1,9 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Apply Job')
+@section('title', 'Job Application')
 @section('content')
 <br>
-
-<section class="content-header mt-5">
+<section class="content-header">
     <div class="container">
       <div class="row mb-0">
         <div class="col-sm-5">
@@ -13,6 +12,7 @@
             <nav aria-label=" breadcrumb">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a  href="{{ url('/home') }}">Home</a></li>
+            <li class="breadcrumb-item"><a  href="{{ route('job.index') }}">Jobs</a></li>
             <li class="breadcrumb-item active">Apply This Job</li>
           </ol>
             </nav>
@@ -21,10 +21,20 @@
     </div>
   </section>
   <br>
+  {{-- @if(auth()->user()->skills ==="NULL") --}}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <div class="text-center"><strong>Please Complete Your Profile!</strong>  <a href="{{route('user.myprofile')}} ">Click Here</a> </div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+  {{-- @endif --}}
+<br>
+
 <div class="container">
 <div class="row">
     <div class="col-md-8">
-        <form action="{{ route('job.applications.store',$job->id) }}" method="POST" class="needs-validation application m-2" novalidate>
+        <form action="{{ route('job.applications.store',$job->slug) }}" method="POST" class="needs-validation application m-2 p-3" novalidate>
             @csrf
             <h2 class="text-center">Apply For This Job</h2>
             <div class="form-group">
@@ -36,7 +46,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                         <label for="duration">Duration:</label>
-                        <input type="number" class="form-control"  name="duration" placeholder="Enter Duration" id="duration" required>
+                        <input type="number" class="form-control"  name="duration" placeholder="Enter Duration , eg 5" id="duration" required>
                         <div class="invalid-feedback">Please Enter Expected Duration To Take.</div>
                       </div>
                   </div>
@@ -108,10 +118,29 @@ value="day"
                 })();
                 </script>
         </form>
+        <br>
     </div>
     <div class="col-md-4">
-        <p>Similar Jobs</p>
-        <p> Jobs You May Like</p>
+
+@if(count($otherJobs)>0)
+
+
+        <div class="card ">
+            <div class="card-header text-center">Other Jobs You May like</div>
+            <div class="card-body">
+
+           <ul class="list-group list-group-flush">
+          @foreach($otherJobs as $job)
+          <a href="{{ $job->url}}" class="list-group-item list-group-item-action">{{ Str::limit($job->title,60)}}</a>
+
+          @endforeach
+
+          </ul>
+            </div>
+        </div>
+        @endif
+        <br>
+
     </div>
 </div>
 

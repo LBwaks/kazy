@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Category;
 use Auth;
 use App\Job;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -69,20 +70,19 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $category=Category::findOrFail($id);
-        $category_jobs=$category->jobs()->latest()->paginate(4);
-        $otherJobs=Job::where('application_id',null)->inRandomOrder()->limit(5)->get();
-        $populars=Job::inRandomOrder()->with('applications')
-        // take(5)
-        ->get();
+        $category=Category::whereSlug($slug)->first();
+        $category_jobs=$category->jobs()-> where([['application_id',null],['due','>',Carbon::now()]])->latest()->paginate(4);
+        $populars=Job::withCount('applications')->orderBy('applications_count')->where([['application_id',null],['due','>',Carbon::now()]])->take(5)->get();
+        $otherJobs=Job::where([['application_id',null],['due','>',Carbon::now()]])->inRandomOrder()->limit(5)->get();
+// $otherJobs=Job::where('application_id',null)->inRandomOrder()->limit(5)->get();
    return view('category.show')->with(compact('category_jobs','category','otherJobs','populars'));
 
     }
-    public function showCategory($id)
+    public function showCategory($slug)
     {
-        $category=Category::findOrFail($id);
+        $category=Category::whereSlug($slug)->first();
         $jobs=$category->jobs()->latest()->paginate(4);
    return view('category.show')->with(compact('category','jobs'));
 
@@ -93,8 +93,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($slug)
     {
+        $category=Category::whereSlug($slug)->first();
         $categories=Category::latest()->get();
         return view('category.edit', compact('category'));
     }

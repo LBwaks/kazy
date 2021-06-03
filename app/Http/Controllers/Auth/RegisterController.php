@@ -51,17 +51,17 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'user_type'=>['required'],
-            'id_no' => ['required', 'string', 'min:6','max:10'],
+            'id_no' => ['required', 'string', 'min:6','max:8','unique:users'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'tell' => ['required', 'string', 'min:10','max:10'],
+            'phone' => ['required', 'string', 'min:10','max:14','unique:users'],
             'gender' => ['required', 'string', 'min:4','max:6'],
             'dob' => ['required', 'date'],
             'location' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'profile_image'=>['sometimes','mimes:jpeg,png,jpg|max:2048|nullable']
-
+            'avatar'=>['sometimes','mimes:jpeg,png,jpg|max:2048|nullable'],
+            'terms'=>['accepted']
 
 
         ]);
@@ -83,8 +83,8 @@ class RegisterController extends Controller
     // }
     protected function create(array $data)
     {
-        if(request()->hasFile('profile_image')){
-            $file=request()->file('profile_image');
+        if(request()->hasFile('avatar')){
+            $file=request()->file('avatar');
             $name=uniqid().".".$file->getClientOriginalExtension();
             $file->move('images/profile/',$name);
             return User::create([
@@ -92,12 +92,13 @@ class RegisterController extends Controller
                 'id_no'=>$data['id_no'],
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'tell'=>$data['tell'],
+                'phone'=>$data['phone'],
                 'gender'=>$data['gender'],
                 'dob'=>$data['dob'],
                 'location'=>$data['location'],
                 'address'=>$data['address'],
-                'profile_image'=>$name,
+                'avatar'=>$name,
+                'terms'=>$data['terms'],
                 'password' => Hash::make($data['password']),
             ]);
         }
@@ -106,11 +107,12 @@ class RegisterController extends Controller
             'id_no'=>$data['id_no'],
             'name' => $data['name'],
             'email' => $data['email'],
-            'tell'=>$data['tell'],
+            'phone'=>$data['phone'],
             'gender'=>$data['gender'],
             'dob'=>$data['dob'],
             'location'=>$data['location'],
             'address'=>$data['address'],
+            'terms'=>$data['terms'],
             'password' => Hash::make($data['password']),
         ]);
     }

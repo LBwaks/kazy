@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Job;
-use App\User;
+use \TCG\Voyager\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class JobPolicy

@@ -50,8 +50,9 @@
 
 <div class="form-group">
 {!! Form::label('category_id','Job Category:') !!}
-{!! Form::select('category_id[]',$category,null,['class'=>'form-control  select2bs4','multiple']) !!}
-    </div>
+{!! Form::select('category_id[]',$category,null,['class'=>'form-control  select2bs4','required'=>'yes','multiple']) !!}
+<div class="invalid-feedback">Please Provide Category For This job.</div>
+</div>
     <div class="form-group">
         {!! Form::label('description','Description About This Job:') !!}
         {!! Form::textarea('description',old('description'),['id'=>'editor1'],['class'=>'form-control','rows'=>'2','required'=>'yes','id'=>'description']) !!}
@@ -92,7 +93,7 @@
         <br>
         <p class="mb-1">Job's Video:<span class="text-primary">(Not Complusary)</span> </p>
         <div class="custom-file">
-            {!! Form::label('video','Jobs Video',['class'=>'custom-file-label']) !!}
+            {!! Form::label('video','Jobs Video, Max size 12mbs',['class'=>'custom-file-label']) !!}
             {!! Form::file('video[]',['class'=>'custom-file-input','multiple'=>'multiple']) !!}
 
         </div>

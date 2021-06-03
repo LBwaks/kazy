@@ -84,27 +84,27 @@ id="home-section">
        <br>
        <div class="find  w-75
        justify-content-center  py-md-4 px-md-5 align-content-center">
-       <form method="post" class="search-jobs-form">
+       <form method="get" action="{{ route('find') }}"class="search-jobs-form">
+        @csrf
         <div class="row mb-5">
-          {{-- <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-            <input type="text" class="form-control form-control-lg" placeholder="Job title, Company...">
-          </div> --}}
           <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0">
-            <select id="" class="form-control form-control-lg mb-2 mr-sm-5"  name="">
-
-                <a href="{{ route('job.create') }}"> <option  value="">  Plumbing1</option></a>
-                <option value="">Plumbing</option>
-                <option value="">Plumbing</option>
-                <option value="">Carpenter</option>
+            <input type="text" class="form-control form-control-lg" placeholder="Job title" name="title" value="{{ request()->input('query') }}">
+          </div>
+          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+            <select id="" class="form-control form-control-lg mb-2 mr-sm-5"  name="category">
+                {{-- <option selected="true" disabled="disabled">Choose Location</option> --}}
+                @foreach ($categories as $category)
+                <option value="{{ $category->id }}" >{{ $category->job }}</option>
+                @endforeach
 
         </select>
           </div>
-          <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0">
-            <input type="text" class="form-control form-control-lg" placeholder="Job Location">
+          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+            <input type="text" class="form-control form-control-lg" placeholder="Job Location" name="location" value="{{ request()->input('query') }}">
           </div>
 
-          <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0">
-            <button type="submit" class="btn btn-primary btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Search Job</button>
+          <div class="col-12 col-sm-6 col-md-6 col-lg-2 mb-4 mb-lg-0">
+            <button type="submit" class="btn btn-primary btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>   <i class="fas fa-search"></i></button>
           </div>
         </div>
 

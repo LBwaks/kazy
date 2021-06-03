@@ -23,6 +23,23 @@
 
             @if (Route::has('login'))
             @auth
+            @if(Auth()->user()->user_type ==='recruiter' ||Auth()->user()->user_type ==='both' )
+            <li><a class="collapsible-header waves-effect arrow-r"><i class="far fa-file"></i>
+                My Jobs<i class="fas fa-angle-down rotate-icon"></i></a>
+              <div class="collapsible-body">
+                <ul>
+                    <li><a href="{{ route('job.myjobs') }}" class="waves-effect">My Jobs</a>
+                    </li>
+                  <li><a href="{{ route('approved-jobs') }}" class="waves-effect">Approved Jobs</a>
+                  </li>
+                  <li><a href="{{ route('expired-jobs') }}" class="waves-effect">Expired  Jobs</a>
+                  </li>
+
+
+                </ul>
+              </div>
+            </li>
+            @else
             <li><a class="collapsible-header waves-effect arrow-r"><i class="far fa-file"></i>
                 Job Applications<i class="fas fa-angle-down rotate-icon"></i></a>
               <div class="collapsible-body">
@@ -31,16 +48,19 @@
                   </li>
                   <li><a href="{{ route('pending') }}" class="waves-effect">Pending  Applications</a>
                   </li>
-                  <li><a href="#" class="waves-effect">Failed   Applications</a>
+                  <li><a href="{{ route('failed') }}" class="waves-effect">Failed   Applications</a>
                   </li>
                 </ul>
               </div>
             </li>
+            @endif
+
+
             @endauth
             @endif
 
             <li><a class="collapsible-header waves-effect" href="#"><i class="fas fa-info-circle"></i>About Us</a></li>
-            <li><a class="collapsible-header waves-effect" href="#"><i class="fas fa-envelope"></i>Contact Us</a></li>
+            <li><a class="collapsible-header waves-effect" href="{{ route('contact') }}"><i class="fas fa-envelope"></i>Contact Us</a></li>
             @auth
             <li>
                 <a class="dropdown-item" href="{{ route('logout') }}"
@@ -82,6 +102,13 @@
           <li class="nav-item">
             <a href="{{ route('job.create') }}" class="nav-link"><i class="fa fa-edit"></i> <span class="clearfix d-none d-sm-inline-block">Post Jobs</span></a>
           </li>
+
+          @if (Route::has('login'))
+            @auth
+
+
+            @endauth
+            @endif
 
             @guest
 
@@ -129,11 +156,48 @@
               </a>
 
           </li> --}}
+          @if(count(auth()->user()->unreadNotifications))
+          <li class="nav-item dropdown" id="markasread" onclick="markNotificationAsRead()">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-bell"></i> <span class="badge badge-primary">{{ count(auth()->user()->unreadNotifications) }}</span></a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <div class="arrow_box_right">
+                  <div class="user-panel mb-2 pb-2  d-flex">
+                <div class="">
+
+
+                                <img src="{{ asset('/images/profile/'.Auth::user()->avatar) }}" alt="{{ Str::limit(Auth::user()->profile_image) }}" height="35" width="35" class="img-circle">
+                </div>
+                <div class="info">
+                  <span href="#" class="d-block">{{ Auth::user()->name }}</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+
+
+              @foreach (auth()->user()->unreadNotifications as $notification)
+<a href="
+{{ route('job.show',$notification->data['job']['slug']) }}
+">{{strip_tags(Str::limit($notification->data['job']['title']),20)}} approved</a>
+              @endforeach
+
+
+                 </div>
+
+            </div>
+          </li>
+          @endif
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            <img src="{{ asset('/images/profile/'.Auth::user()->profile_image) }}" alt="{{auth::user()->name}}" height="35" width="35" class="img-circle">
+            @if(Auth::user()->avatar)
+            <img src="{{ asset('/images/profile/'.Auth::user()->avatar) }}" alt="{{auth::user()->name}}" height="35" width="35" class="img-circle">
+            @else
+            {{auth::user()->name}}
+            @endif
+
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
             <div class="arrow_box_right">
@@ -141,7 +205,7 @@
               <div class="">
 
 
-                              <img src="{{ asset('/images/profile/'.Auth::user()->profile_image) }}" alt="{{ Str::limit(Auth::user()->profile_image) }}" height="35" width="35" class="img-circle">
+                              <img src="{{ asset('/images/profile/'.Auth::user()->avatar) }}" alt="{{ Str::limit(Auth::user()->profile_image) }}" height="35" width="35" class="img-circle">
               </div>
               <div class="info">
                 <span href="#" class="d-block">{{ Auth::user()->name }}</span>
@@ -153,22 +217,27 @@
                   <i class="fas fa-user-edit mr-2"></i>Profile
 
                 </a>
+                @if(Auth()->user()->user_type ==='recruiter' ||Auth()->user()->user_type ==='both' )
                 <a href="{{ route('job.myjobs') }}" class="dropdown-item">
-                  <i class="fas fa-briefcase mr-2"></i>My Jobs
-
-                </a>
-                 <a href="{{ route('pending') }}" class="dropdown-item">
-                  <i class="fas fa-briefcase mr-2"></i>Pending Applications
-
-                </a>
-                <a href="{{route('approved')}}" class="dropdown-item">
-                    <i class="fas fa-briefcase mr-2"></i>Approved Applications
+                    <i class="fas fa-briefcase mr-2"></i>My Jobs
 
                   </a>
-                  <a href="#" class="dropdown-item">
-                    <i class="fas fa-briefcase mr-2"></i>Failed Applications
+                  @else
+                  <a href="{{ route('pending') }}" class="dropdown-item">
+                    <i class="fas fa-briefcase mr-2"></i>Pending Applications
 
                   </a>
+                  <a href="{{route('approved')}}" class="dropdown-item">
+                      <i class="fas fa-briefcase mr-2"></i>Approved Applications
+
+                    </a>
+                    <a href="{{ route('failed') }}" class="dropdown-item">
+                      <i class="fas fa-briefcase mr-2"></i>Failed Applications
+                    </a>
+                @endif
+
+
+
                 <a class="dropdown-item" href="{{ route('logout') }}"
                 onclick="event.preventDefault();
                               document.getElementById('logout-form').submit();">

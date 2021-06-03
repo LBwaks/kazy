@@ -14,11 +14,11 @@ class AddMultipleColumnToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('highest_education')->nullable();
-            $table->string('other_education')->nullable();
-            $table->string('experience')->nullable();
-            $table->string('skills')->nullable();
-            $table->string('cv_and_certificates')->nullable();
+            $table->string('highest_education')->default('No Records Found')->nullable();
+            $table->string('other_education')->default('No Records Found')->nullable();
+            $table->string('experience')->default('No Records Found')->nullable();
+            $table->string('skills')->default('No Records Found')->nullable();
+            $table->string('cv_and_certificates')->default('No Records Found')->nullable();
         });
     }
 

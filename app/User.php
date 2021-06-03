@@ -5,18 +5,30 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use willvincent\Rateable\Rateable;
 use Laravel\Scout\Searchable;
+// use willvincent\Rateable
 class User extends \TCG\Voyager\Models\User
 {
     use Notifiable;
-    use Searchable;
+    use Rateable;
+     use Searchable;
+     use Rateable;
+
+//    $ = User::first();
+//    $rate->rateOnce();
+
+    public function routeNotificationForNexmo()
+    {
+        return $this->tell;
+    }
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'id_no','name', 'email', 'password','tell','location','address','dob', 'gender','profile_image','user_type','highest_education','other_education','experience','skills','cv_and_certificates'
+        'id_no','name', 'email', 'password','phone','location','address','dob', 'gender','avatar','terms','user_type','highest_education','other_education','experience','skills','cv_and_certificates'
     ];
 
     /**
@@ -40,11 +52,23 @@ class User extends \TCG\Voyager\Models\User
     {
       return $this->hasMany('App\Category');
     }
+
     public function jobs()
     {
-       return $this->hasMany('App\Job');
+       return $this->belongsTo('App\Job');
+    }
+    public function comments(){
+        return $this->hasMany("App\Comment");
     }
 public function applications(){
-    return $this->hasMany('App\application');
+    return $this->hasManyThrough('App\application','App\Job');
+}
+public function tosearchableArray()
+{
+    return [
+        'id' => $this->id,
+        'name' => $this->name,
+        'location' => $this->location
+    ];
 }
 }

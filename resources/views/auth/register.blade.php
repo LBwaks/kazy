@@ -1,7 +1,6 @@
 @extends('layouts.app')
-
+@section('title', 'Register')
 @section('content')
-
 
 <div class="register-page">
 <div class="register-box">
@@ -83,11 +82,11 @@
                  </div>
 
                  <div class="form-group">
-                    <label for="tell">Phone Number</label>
-                    <input id="tell" type="text"  class="form-control @error('tell') is-invalid @enderror" name="tell" value="{{ old('tell') }}" required autocomplete="tell" autofocus>
+                    <label for="phone">Phone Number</label>
+                    <input id="phone" type="tell"  class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" autofocus>
 
 
-                    @error('tell')
+                    @error('phone')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -162,17 +161,7 @@
                 @enderror
                   </div>
 
-                  {{-- <div class="form-group">
-                    <label for="gender">Gender</label>
-                    <input id="gender" type="text"  class="form-control @error('gender') is-invalid @enderror" name="gender" value="{{ old('gender') }}" required autocomplete="gender" autofocus>
 
-
-                    @error('gender')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-                </div> --}}
 
                   <div class="form-group">
                     <label for="location">Location</label>
@@ -195,22 +184,13 @@
                     </span>
                 @enderror
                 </div>
-                {{-- <div class="form-group">
-                    <label for="address">Image</label>
-                    <input id="profile_image" type="text"  class="form-control @error('profile_image') is-invalid @enderror" name="profile_image" value="{{ old('profile_image') }}" required autocomplete="profile_image" autofocus>
 
-                    @error('profile_image')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-                </div> --}}
 
                 <div class="form-group">
                     <label for="profile">Profile Image</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" value="{{ old('profile_image') }}" class="custom-file-input @error('profile_image') is-invalid @enderror" name="profile_image" id="profile_image">
+                        <input type="file"  class="custom-file-input @error('avatar') is-invalid @enderror" name="avatar" id="avatar">
                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                       </div>
 
@@ -235,51 +215,25 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <button name="user_type" class="btn btn-primary"> RECRUITER</button>
-                     @error('name')
-                     <span class="invalid-feedback" role="alert">
-                         <strong>{{ $message }}</strong>
-                     </span>
-                 @enderror
-             </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <button name="user_type" class="btn btn-primary"> SEEKER</button>
-                     @error('name')
-                     <span class="invalid-feedback" role="alert">
-                         <strong>{{ $message }}</strong>
-                     </span>
-                 @enderror
-             </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <button name="user_type" class="btn btn-primary"> BOTH</button>
-                     @error('name')
-                     <span class="invalid-feedback" role="alert">
-                         <strong>{{ $message }}</strong>
-                     </span>
-                 @enderror
-                </div>
-            </div>
-        </div> --}}
 
 
 
 
         <div class="row">
+
           <div class="col-7">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="terms" id="remember">
+                <input class="form-check-input @error('terms') is-invalid @enderror" type="checkbox" name="terms" id="terms" value='1' {{ !old('terms') ?: 'checked' }}required>
 
                 <label class="form-check-label" for="terms">
-                    I agree to the <a href="#">terms</a>
+                    <a href="#"> I agree to the Terms and Conditions</a>
                 </label>
                 <div class="invalid-feedback">Check this checkbox to continue.</div>
+                @error('terms')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
             </div>
 
           </div>
@@ -293,19 +247,8 @@
         </div>
       </form>
 
-      <div class="social-auth-links text-center">
-        <p>- OR -</p>
-        <a href="#" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i>
-          Sign up using Facebook
-        </a>
-        <a href="#" class="btn btn-block btn-danger">
-          <i class="fab fa-google-plus mr-2"></i>
-          Sign up using Google+
-        </a>
-      </div>
 
-      <a href="{{ route('register') }}" class="text-center">I already have a membership</a>
+      <a href="{{ route('login') }}" class="text-center">I already have an  Account</a>
     </div>
 
   </div>

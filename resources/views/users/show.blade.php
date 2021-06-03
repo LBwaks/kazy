@@ -19,12 +19,7 @@
     </div><!-- /.container-fluid -->
   </section>
   <br>
-  <div class="search-box">
-    <form action="" class="form-inline d-flex justify-content-center md-form form-sm">
-        <input type="text"  placeholder="Search Here" class="form-control form-control-sm mr-3 w-75" aria-label="Search">
-        <i class="fas fa-search"></i>
-    </form>
-    </div>
+  @include('layouts.partials.search')
     <br>
   <div class="container">
     <div class="card ">
@@ -32,7 +27,7 @@
     <div class="row">
        <div class="col-lg-12 col-sm-12">
 
-        @foreach ($jobs as $job)
+        @forelse ($jobs as $job)
 
         <div class="card  text-dark" style="background-color: rgba(96, 125, 135, 0.1)">
             <div class="card-body px-auto pb-0 pt-1" >
@@ -47,13 +42,13 @@
                     @endif
                    <span> <i class="fas fa-tags fa-lg mr-1"></i>@foreach($job->categories as $category)
 
-                    <span><a href="{{ route('category.show',$category->id) }}" class="badge badge-pill badge-secondary">{{ $category->job }}</a> </span>
+                    <span><a href="{{ route('category.show',$category->slug) }}" class="badge badge-pill badge-secondary">{{ $category->job }}</a> </span>
                     @endforeach </span>
                          <br>
 
                          <div class="font-weight-light py-1 text-monospace mx-4 "> {{ Str::limit(strip_tags($job->description,300))}}</div>
 
-                          <div class="text-muted font-weight-light"> <i class="fa fa-clock mr-1"></i>Deadline:  {{ $job->due }}   (USE COUNTDOWN TIMER)</div>
+                          <div class="text-muted font-weight-light"> <i class="fa fa-clock mr-1"></i>Deadline:  {{ $job->due->diffForHumans() }}</div>
 
                     <div class="pb-1 text-muted font-weight-light">
                         <i class="fas fa-user-circle  mr-1"></i>
@@ -72,7 +67,7 @@
 
                     @foreach ($job->images as $image)
 @if ($job->images->first()==$image)
-<img class="img-fluid" width="400" height="400" src="/images/job_image/{{ $image->images }}" alt="{{ Str::limit($job->title,50) }}">
+<img class="img-fluid" width="250" height="250" src="/images/job_image/{{ $image->images }}" alt="{{ Str::limit($job->title,50) }}">
 
 @endif
 
@@ -88,11 +83,19 @@
 
 
         </div>
-
+        <br>
+@empty
+<div class="card  text-dark" style="background-color: rgba(96, 125, 135, 0.1)">
+    <div class="card-body px-auto pb-0 pt-1" >
+        <p class="text-center">
+            Sorry No Jobs Listed For By This User
+        </p>
+    </div>
+</div>
 
 
 <br>
-@endforeach
+@endforelse
 {{ $jobs->onEachSide(1)->links() }}
 </div>
 

@@ -7,9 +7,11 @@ use App\Application;
 use App\Job;
 use App\User;
 use DataTables;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Str;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 class ApplicationController extends Controller
 {
     public function __construct()
@@ -21,9 +23,9 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Job $job, Application $application)
     {
-        //
+    //
     }
 
     /**
@@ -31,10 +33,13 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Job $job,Application $application)
+    public function create($slug,Application $application)
     {
-        // $job=Job::findOrFail($job);
-        return view('applications.create',compact('job'));
+        // dd($slug);
+        $job=Job::whereSlug($slug)->first();
+// dd($job);
+        $otherJobs=Job::where([['application_id',null],['due','>',Carbon::now()]])->inRandomOrder()->limit(7)->get();
+        return view('applications.create',compact('job','otherJobs'));
     }
 
     /**
@@ -43,9 +48,10 @@ class ApplicationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Job $job,Application $application,Request $request)
+    public function store($slug,Application $application,Request $request)
     {
-
+        $job=Job::whereSlug($slug)->first();
+// dd($job);
         $request->validate([
 
             'availability'=>'required',
@@ -55,37 +61,30 @@ class ApplicationController extends Controller
         ]);
 
         $user=Auth::user();
+//  dd($job->);
         if($user->id !== $job->user_id){
-            if( $application->job_id === $job->id && $application->user_id ===$user ){
+            if(Application::where('job_id',$job->id)->where('user_id',$user->id)->count()){
 
                 abort(403,'You have Already Applied For This Job');
             }
             else{
                 $application=$job->applications()->create([
 
-
                     'time_available'=>$request->availability,
+                    'slug'=>SlugService::createSlug(Application::class,'slug',$request->charge),
                     'time'=>$request->time,
                       'charge'=>$request->charge,
                      "duration"=>$request->duration,
                       'user_id'=>\Auth::id()]);
-
             }
 
         if($application)
         {
-            // $user=$job->user;
-            // $user->notify(new NewBid($bid));
             return redirect()->route('job.index')->with('success', '   Application Successful!');
-
-        }
-        else{
-            return redirect()->route('jobs.show')->with('failure','FAILED');
         }
     }else{
         abort(403,'You Cannot Apply  Your Own Job');
     }
-
 
     }
 
@@ -95,9 +94,14 @@ class ApplicationController extends Controller
      * @param  \App\Application  $application
      * @return \Illuminate\Http\Response
      */
-    public function show(Application $application)
+    public function show(Job $job,Application $application)
     {
-        return view('applications.show')->with(compact('application'));
+        // $jobb=Job::findOrFail($job);
+        // $job=Job::whereSlug('job'->slug)->first();
+        // ['job'=> $application->job->slug,
+        // $application=Application::whereSlug($slug);
+        return view('applications.show')->with(compact('application','job'));
+        // dd($jobb);
     }
 
     /**
@@ -106,9 +110,11 @@ class ApplicationController extends Controller
      * @param  \App\Application  $application
      * @return \Illuminate\Http\Response
      */
-    public function edit(Application $application)
+    public function edit($slug,Application $application)
     {
-        //
+        $job=Job::whereSlug($slug);
+        $otherJobs=Job::where('application_id',null)->inRandomOrder()->limit(7)->get();
+        return view('applications.edit',compact('application','job','otherJobs'));
     }
 
     /**
@@ -118,9 +124,31 @@ class ApplicationController extends Controller
      * @param  \App\Application  $application
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Application $application)
+    public function update($slug, Application $application ,Request $request)
     {
-        //
+        $job=Job::whereSlug($slug);
+       $this->validate($request,[
+           'availability'=>'required',
+           'charge'=>'required|numeric',
+           'duration'=>'required|numeric',
+           'time'=>"required",
+       ]);
+    //    $input=$request->all();
+    //    $input['user_id']= $user->Auth::id();
+
+    //    dd($input);
+        $application->update([
+
+            'time_available'=>$request->availability,
+            'time'=>$request->time,
+              'charge'=>$request->charge,
+             "duration"=>$request->duration,
+              'user_id'=>\Auth::id()]);
+            //   dd($application);
+        if($application)
+       {
+           return redirect()->route('job.applications.show',['job'=>$application->job_id,'application'=>$application->id])->with('success','Application Update Successfully');
+       }
     }
 
     /**
@@ -129,20 +157,36 @@ class ApplicationController extends Controller
      * @param  \App\Application  $application
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Application $application)
+    public function destroy(Job $job,Application $application)
     {
-        //
+       $application->delete();
+       return redirect()-route('job.show',$job)->with('success','Your Application Has Been Deleted');
     }
-     public function pending(Application $application,Request $request)
+
+    public function cancel(Job $job,Application $application)
+    {
+    //    $application->delete();
+    //    return back()->with('success','Your Application Has Been Deleted');
+    }
+
+     public function pending(Request $request)
      {
+
         if($request->ajax()){
+
             $where=['user_id'=>Auth::user()->id,'approved'=>'No'];
-            $data=Application::where($where)->latest()->get();
+            $data=Application::with('user')->with('job')->where($where)->latest()->get();
               return datatables::of($data)
               ->addIndexColumn()
               ->addColumn('action',function(Application $application){
-                  $actionBtn='<a href="'.$application->id.'" class="edit btn btn-success btn-sm">View Application</a>';
-                  return $actionBtn;
+                //   $application_id=$application->job_id;
+                //   $job=Job::where('id',$application_id)->get();
+                // $job_id=Job::findOrFail($application_id);
+                // $job_slug=Job::where(i)
+                // return '<a href="'.route('job.applications.show',['job'=> $application->job->slug, 'application' => $application->slug]).'
+
+                return '<a href="'.route('job.applications.show',['job'=> $application->job_id, 'application' => $application->id]).'
+                " class="edit btn btn-success btn-sm">View Application</a>';
               })
               ->rawColumns(['action'])
               ->make(true);
@@ -150,16 +194,34 @@ class ApplicationController extends Controller
           return view('applications.pending');
      }
 
-public function approved(Request $request)
+
+     public function failed(Request $request)
+     {
+        if($request->ajax()){
+            $where=['user_id'=>Auth::user()->id,'approved'=>'Failed'];
+            $data=Application::with('user')->where($where)->latest()->get();
+              return datatables::of($data)
+              ->addIndexColumn()
+              ->addColumn('action',function($application){
+                return '<a href="'.route('job.applications.show',['job'=> $application->job_id, 'application' => $application->id]).'" class="edit btnd btn-success btn-sm">View Application</a>';
+
+              })
+              ->rawColumns(['action'])
+              ->make(true);
+          }
+          return view('applications.failed');
+     }
+
+public function approved(Request $request, Application $application)
 {
     if($request->ajax()){
         $where=['user_id'=>Auth::user()->id,'approved'=>'Approved'];
         $data=Application::where($where)->latest()->get();
           return datatables::of($data)
           ->addIndexColumn()
-          ->addColumn('action',function($row){
-              $actionBtn='<a href="" class="edit btn btn-success btn-sm">View Application</a>';
-              return $actionBtn;
+          ->addColumn('action',function($application){
+            return '<a href="'.route('job.applications.show',['job'=> $application->job_id, 'application' => $application->id]).'" class="edit btnd btn-success btn-sm">View Application</a>';
+
           })
           ->rawColumns(['action'])
           ->make(true);
@@ -169,10 +231,16 @@ public function approved(Request $request)
 
 
 
-     public function applicant(Application $application, User $user){
-        $user=User::findOrFail($user);
-        // $application=Application::where('user_',$user->name)->get();
-
-        return view('users.applicant',compact('user'));
+     public function applicant(Application $application){
+$application=Application::with('user')->findOrFail($application);
+//         // $user=User::findOrFail($user);
+//       $application=Application::findOrFail($application);
+// // dd($user);
+dd($application);
+        return view('users.applicant',compact('application','user'));
     }
+
+//     $job=Job::with('applications','user')->findOrFail($id);
+//     $applications=$job->applications()->latest()->paginate(5);
+//    return view('job.applications',compact('job','applications'));
 }

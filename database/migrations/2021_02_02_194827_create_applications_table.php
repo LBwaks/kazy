@@ -19,7 +19,7 @@ class CreateApplicationsTable extends Migration
             $table->unsignedBigInteger('job_id');
             $table->string('charge');
             $table->integer('duration');
-            $table->string('approved')->default('No');
+            $table->string('approved')->default('Pending');
             $table->softDeletes();
             $table->timestamps();
 

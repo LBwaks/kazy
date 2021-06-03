@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('title', 'Approved Applications')
 @section('content')
-
-<section class="content-header mt-5">
+<br>
+<section class="content-header">
     <div class="container">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>My Jobs</h1>
+          <h1>Approved Applications</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">

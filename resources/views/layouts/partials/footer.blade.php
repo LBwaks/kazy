@@ -65,13 +65,13 @@
                 </h6>
                 <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
                 <p>
-                    <a href="#!">Home</a>
+                    <a href="{{ url('/home') }}">Home</a>
                 </p>
                 <p>
-                    <a href="#!">Jobs</a>
+                    <a href="{{ route('job.index') }}">Jobs</a>
                 </p>
                 <p>
-                    <a href="#!">Post Job</a>
+                    <a href="{{ route('job.create') }}">Post Job</a>
                 </p>
                 <p>
                     {{-- <a href="#!">Bootstrap Angular</a> --}}
@@ -86,16 +86,16 @@
                 </h6>
                 <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
                 <p>
-                    <a href="#!">Sign In</a>
+                    <a href="{{ route('login') }}">Sign In</a>
                 </p>
                 <p>
-                    <a href="#!">Contact Us</a>
+                    <a href="{{ route('contact') }}">Contact Us</a>
                 </p>
                 <p>
-                    <a href="#!">About Us</a>
+                    <a href="{{ route('about')}}">About Us</a>
                 </p>
                 <p>
-                    <a href="#!">FAQ</a>
+                    <a href="{{ route('FAQ') }}">FAQ</a>
                 </p>
             </div>
             <!--/.Third column-->
@@ -111,9 +111,9 @@
                 <p>
                     <i class="fa fa-envelope mr-3"></i> info@kazyYangu.com</p>
                 <p>
-                    <i class="fa fa-phone mr-3"></i> + 01 234 567 88</p>
+                    <i class="fa fa-phone mr-3"></i> +254 7234 567 88</p>
                 <p>
-                    <i class="fa fa-print mr-3"></i> + 01 234 567 89</p>
+                    <i class="fa fa-print mr-3"></i> +254 7234 567 89</p>
             </div>
             <!--/.Fourth column-->
 

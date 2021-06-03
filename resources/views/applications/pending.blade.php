@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Pending Applications')
 @section('content')
-
-<section class="content-header mt-5">
+<br>
+<section class="content-header">
     <div class="container">
       <div class="row mb-2">
         <div class="col-sm-6">

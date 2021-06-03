@@ -17,6 +17,7 @@ body{
     padding: 0px;
 }
  main{
+     min-height: 100vh;
     margin: 0px;
     padding: 0px;
 }
@@ -326,7 +327,7 @@ input[type="button"].btn-block {
 
 /*************************************/
 .home-content{
-    background-image:linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.7)), url('/images/app/1615431.jpg');
+    background-image:linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('/images/app/home.jpg');
     background-position: center;
     background-size: cover;
     /* background-color: #9c9c9c; */
@@ -423,7 +424,7 @@ a.account {
 
 /*----------------------------------extra----------------*/
 .badge-lg{
-font-size:1.1em;
+font-size:1.0em;
 }
 
 
@@ -465,7 +466,7 @@ font-size:1.1em;
 /*******************************END OF FOOTER************/
 .home-section{
 
-background-image:url('/images/app/1615431.jpg');
+background-image:url('/images/app/home.jpg');
 }
 /* .home-section {
     position: relative; }
@@ -645,3 +646,59 @@ background-image:url('/images/app/1615431.jpg');
 .welcome-c{
 min-height:500px;
 }
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
+.hommme {
+  margin: 0;
+  font-family: "Inter UI", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #CFD8DC;
+  text-align: left;
+  /* background-color: #000000 !important; */
+  /* background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url('/images/app/home.jpg');
+    background-position: center;
+    background-size: cover; */
+    /* background-color: #9c9c9c; */
+    min-height: 90vh;
+    }
+.bg-hero {
+    background-image:linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('/images/app/welcome.jpg');
+    background-position: center;
+    background-size: cover;
+  /* background-color: #000000;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 800'%3E%3Cg %3E%3Ccircle fill='#000000' cx='400' cy='400' r='600'/%3E%3Ccircle fill='#053529' cx='400' cy='400' r='500'/%3E%3Ccircle fill='#0a634d' cx='400' cy='400' r='400'/%3E%3Ccircle fill='#0e9271' cx='400' cy='400' r='300'/%3E%3Ccircle fill='#13c095' cx='400' cy='400' r='200'/%3E%3Ccircle fill='#1de9b6' cx='400' cy='400' r='100'/%3E%3C/g%3E%3C/svg%3E"); */ */
+  /* background by SVGBackgrounds.com
+  background-attachment: fixed;
+  background-size: cover;
+  position: relative;
+}
+  .bg-hero:before {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+    left: 0;
+    top: 0;
+    content: "";
+    background-color: rgba(0, 0, 0, 0.7); }
+  .bg-hero .container {
+    z-index: 2;
+    position: relative; }
+    /*features boxes*/
+.feature-boxes {
+  text-align: center; }
+  .feature-boxes .box {
+    padding: 3rem; }
+
+
+
+      .heading-black {
+  font-weight: 600;
+
+    font-family: "Lucida Console", Courier, monospace;
+   }
+  .text-capitalize {
+  text-transform: capitalize !important; }
+

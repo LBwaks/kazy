@@ -9,7 +9,7 @@
 @endif
 @if(session('failure'))
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <strong>Failed!</strong>{{ session('failure') }}
+    <div class="text-center"><strong>Failed!</strong>{{ session('failure') }}</div>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>

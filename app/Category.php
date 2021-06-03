@@ -20,7 +20,7 @@ class Category extends Model
 
     public function getUrlAttribute()
   {
-      return route('category.show',$this->id);
+      return route('category.show',$this->slug);
   }
   public function jobs()
     {
